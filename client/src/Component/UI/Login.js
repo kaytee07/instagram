@@ -4,9 +4,9 @@ import {Link} from 'react-router-dom'
 function Login() {
  return (
    <div className="d-flex justify-content-center mt-5">
-     <div className="card" style={{ width: "18rem" }}>
+     <div className="card" style={{ width: "22rem" }}>
        <div className="card-body">
-         <h5 className="card-title">Login</h5>
+         <h5 className="card-title signin_title" style={{textAlign:"center"}}>The gram</h5>
          <form>
            <div className="mb-3">
              <label for="exampleInputEmail1" className="form-label">
@@ -32,22 +32,13 @@ function Login() {
                id="exampleInputPassword1"
              />
            </div>
-           <div className="mb-3 form-check">
-             <input
-               type="checkbox"
-               className="form-check-input"
-               id="exampleCheck1"
-             />
-             <label className="form-check-label" for="exampleCheck1">
-               Check me out
-             </label>
-           </div>
+        
            <button type="submit" className="btn btn-primary">
              Sign in
            </button>
            <div>
-             <Link to="#" className="card-link">
-               forgotten your password ?
+             <Link to="/signup" className="card-link">
+               You don't have an account?
              </Link>
            </div>
          </form>
