@@ -16,6 +16,10 @@ function Home(){
             />
           </div>
           <div className="card-body">
+            <div>
+              <i className="bi bi-heart"></i>
+              <i className="bi bi-chat"></i>
+            </div>
             <p className="card-text">
               <span>
                 <b>Taylor</b>
@@ -31,7 +35,6 @@ function Home(){
                 borderRight: "none",
                 width: "100%",
                 borderColor: "rgba(0,0,0,.125)",
-            
               }}
             />
           </div>

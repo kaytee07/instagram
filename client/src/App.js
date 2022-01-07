@@ -5,6 +5,7 @@ import Home from './Component/UI/Home'
 import Login from './Component/UI/Login';
 import Signup from './Component/UI/Signup';
 import Profile from './Component/UI/Profile';
+import CreatePost from './Component/UI/createpost';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/createpost" element={<CreatePost />} />
       </Routes>
     </NavBar>
   );

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Signup() {
   return (
     <div className="d-flex justify-content-center mt-5">
-      <div className="card" style={{ width: "22rem" }}>
+      <div className="card" style={{ maxWidth:"28rem"}}>
         <div className="card-body">
           <h5 className="card-title signin_title">The gram</h5>
           <form>
@@ -14,7 +14,7 @@ function Signup() {
                   username
                 </label>
                 <input
-                  type="password"
+                  type="text"
                   className="form-control"
                   id="exampleInputUsername1"
                 />

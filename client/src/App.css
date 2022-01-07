@@ -20,6 +20,11 @@
   margin:20px auto;
 }
 
+.createpost{
+  width: 80%;
+  margin:20px auto;
+}
+
 .item{
   width: 20rem;
 }
@@ -29,5 +34,9 @@
   margin:20px auto;
   display: flex;
   justify-content: center;
+}
+
+.bi{
+  margin-right: 12px;
 }
 
