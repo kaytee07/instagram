@@ -4,22 +4,34 @@ import {Link} from 'react-router-dom'
 function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const alert = ""
 
  const postData = () => {
-    fetch("http://localhost:2000/signin", {
+    fetch("/signin", {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams({
         password,
-        email
+        email,
       }),
-    });
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.message);
+      })
+      .catch((e) => console.log(e));
   }
 
  return (
    <div className="d-flex justify-content-center mt-5">
+     {alert && (
+       <div class="alert alert-danger" role="alert">
+         {" "}
+         {alert}
+       </div>
+     )}
      <div className="card" style={{ width: "22rem" }}>
        <div className="card-body">
          <h5
@@ -28,7 +40,7 @@ function Login() {
          >
            The gram
          </h5>
-         <form>
+         <div>
            <div className="mb-3">
              <label htmlFor="exampleInputEmail1" className="form-label">
                Email address
@@ -57,8 +69,11 @@ function Login() {
                id="exampleInputPassword1"
              />
            </div>
-
-           <button type="submit" onClick={()=> postData()} className="btn btn-primary">
+           <button
+             type="submit"
+             onClick={() => postData()}
+             className="btn btn-primary"
+           >
              Sign in
            </button>
            <div>
@@ -66,7 +81,7 @@ function Login() {
                You don't have an account?
              </Link>
            </div>
-         </form>
+         </div>
        </div>
      </div>
    </div>
