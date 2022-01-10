@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import {Alert} from 'react-bootstrap'
 
 function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
   const postData = () => {
         fetch("/signup", {
@@ -18,12 +20,8 @@ function Signup() {
            name:username,
          }),
        }).then(res=> res.json())
-        . then(data=> console.log(data.message))
-        .catch(e=> alert(e))
-
-   
-
-   
+        . then(data=> setError(data.error))
+        .catch(e=> alert(e))   
   }
   
 
@@ -31,9 +29,23 @@ function Signup() {
   
 
   return (
-    <div className="d-flex justify-content-center mt-5">
+    <div
+      className="d-flex  align-items-center mt-5"
+      style={{ flexDirection: "column" }}
+    >
+      {error ? (
+        <div
+          style={{ width: "20rem" }}
+          className="alert alert-danger alert-dismissible fade show"
+          role="alert"
+        >
+          {error}
+        </div>
+      ) : (
+        ""
+      )}
       <div className="card" style={{ maxWidth: "28rem" }}>
-        <div className="card-body">
+        <div className="card-body mt-3">
           <h5 className="card-title signin_title">The gram</h5>
           <div>
             <div className="mb-3">

@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  let alert = ""
+  const [error, setError] = useState("");
 
  const postData = () => {
     fetch("/signin", {
@@ -19,17 +19,28 @@ function Login() {
     })
       .then((res) => res.json())
       .then((data) => {
-        alert = data.message;
+        setError(data.error);
       })
       .catch((e) => console.log(e));
   }
 
  return (
-   <div className="d-flex justify-content-center mt-5">
-     <div className="card" style={{ width: "22rem" }}>
-       <div class="alert alert-danger" role="alert">
-        
+   <div
+     className="d-flex justify-content-center mt-5"
+     style={{ flexDirection: "column" }}
+   >
+     {error ? (
+       <div
+         style={{ width: "20rem" }}
+         className="alert alert-danger alert-dismissible fade show"
+         role="alert"
+       >
+         {error}
        </div>
+     ) : (
+       ""
+     )}
+     <div className="card" style={{ width: "22rem" }}>
        <div className="card-body">
          <h5
            className="card-title signin_title"
