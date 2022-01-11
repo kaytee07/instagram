@@ -1,7 +1,8 @@
 import React, {useState} from "react";
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 function Login() {
+  const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("");
@@ -19,7 +20,12 @@ function Login() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setError(data.error);
+        if(!data.error){
+           navigate("/");
+        }else{
+           setError(data.error);
+        }
+ 
       })
       .catch((e) => console.log(e));
   }

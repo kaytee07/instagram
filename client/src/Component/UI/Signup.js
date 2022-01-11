@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 import {Alert} from 'react-bootstrap'
 
 function Signup() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -20,7 +21,13 @@ function Signup() {
            name:username,
          }),
        }).then(res=> res.json())
-        . then(data=> setError(data.error))
+        . then(data=> {
+            if (!data.error) {
+              navigate("/");
+            } else {
+              setError(data.error);
+            }
+        })
         .catch(e=> alert(e))   
   }
   

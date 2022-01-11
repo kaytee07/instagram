@@ -1,11 +1,71 @@
-import React from "react";
+import React, {useState} from "react";
+import { useNavigate } from "react-router-dom";
 
 function CreatePost(){
+  const navigate = useNavigate();
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [image, setImage] = useState("");
+  const [url, setUrl] = useState("");
+  const [error, setError] = useState("");
+
+  const postToCloudinary = () => {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset","instagram");
+    data.append("cloud_name", "dbyubqmb0");
+    fetch("https://api.cloudinary.com/v1_1/dbyubqmb0/image/upload", {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUrl(data.secure_url);
+      })
+      .catch((err) => setError(err));
+
+      fetch("/createpost", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams({
+          title,
+          body,
+          url
+        })
+      }).then(res=> res.json())
+        .then(data=>{
+          if(!data.error){
+             console.log(data);
+             setError(data.message)
+             navigate('/home')
+          }else{
+            setError(data.error)
+          }
+        } )
+        .catch(err=> console.log(err))
+  }
+
     return (
-      <div className="card createpost" style={{ maxWidth: "28rem" }}>
-        <div className="card-body">
-          <h5>Upload Photo</h5>
-          <form>
+      <div
+        className="d-flex  align-items-center mt-5"
+        style={{ flexDirection: "column" }}
+      >
+        {error ? (
+          <div
+            style={{ width: "22rem" }}
+            className="alert alert-danger alert-dismissible fade show"
+            role="alert"
+          >
+            {error}
+          </div>
+        ) : (
+          ""
+        )}
+        <div className="card createpost" style={{ maxWidth: "28rem" }}>
+          <div className="card-body">
+            <h5>Upload Photo</h5>
             <div className="mb-3">
               <label htmlFor="exampleInputTitle1" className="form-label">
                 Title
@@ -15,6 +75,7 @@ function CreatePost(){
                 className="form-control"
                 id="exampleInputTitle1"
                 aria-describedby="emailHelp"
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
             <div className="mb-3">
@@ -25,6 +86,7 @@ function CreatePost(){
                 type="text"
                 className="form-control"
                 id="exampleInputCaption1"
+                onChange={(e) => setBody(e.target.value)}
               />
             </div>
             <div className="input-group mb-3">
@@ -32,12 +94,17 @@ function CreatePost(){
                 type="file"
                 className="form-control"
                 id="exampleInputCaption1"
+                onChange={(e) => setImage(e.target.files[0])}
               />
             </div>
-            <button type="submit" className="btn btn-primary">
+            <button
+              type="submit"
+              onClick={() => postToCloudinary()}
+              className="btn btn-primary"
+            >
               Post
             </button>
-          </form>
+          </div>
         </div>
       </div>
     );
