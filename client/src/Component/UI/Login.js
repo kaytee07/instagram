@@ -26,12 +26,12 @@ function Login() {
 
  return (
    <div
-     className="d-flex justify-content-center mt-5"
+     className="d-flex align-items-center mt-5"
      style={{ flexDirection: "column" }}
    >
      {error ? (
        <div
-         style={{ width: "20rem" }}
+         style={{ width: "22rem" }}
          className="alert alert-danger alert-dismissible fade show"
          role="alert"
        >
