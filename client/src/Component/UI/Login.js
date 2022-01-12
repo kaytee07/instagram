@@ -21,7 +21,9 @@ function Login() {
       .then((res) => res.json())
       .then((data) => {
         if(!data.error){
-           navigate("/");
+           localStorage.setItem("jwt", data.token);
+           localStorage.setItem("user", JSON.stringify(data.user));
+           navigate("/home");
         }else{
            setError(data.error);
         }

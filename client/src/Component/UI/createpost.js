@@ -10,6 +10,7 @@ function CreatePost(){
   const [error, setError] = useState("");
 
   const postToCloudinary = () => {
+    console.log(localStorage.getItem("jwt"))
     const data = new FormData();
     data.append("file", image);
     data.append("upload_preset","instagram");
@@ -27,24 +28,26 @@ function CreatePost(){
       fetch("/createpost", {
         method: "POST",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": "Bearer " + localStorage.getItem("jwt"),
         },
         body: new URLSearchParams({
           title,
           body,
-          url
-        })
-      }).then(res=> res.json())
-        .then(data=>{
-          if(!data.error){
-             console.log(data);
-             setError(data.message)
-             navigate('/home')
-          }else{
-            setError(data.error)
+          url,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.error) {
+            console.log(data);
+            setError(data.message);
+            navigate("/home");
+          } else {
+            setError(data.error);
           }
-        } )
-        .catch(err=> console.log(err))
+        })
+        .catch((err) => console.log(err));
   }
 
     return (
