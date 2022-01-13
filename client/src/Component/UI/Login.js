@@ -1,11 +1,15 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import {Link, useNavigate} from 'react-router-dom'
+import { UserContext } from "../Navbar";
 
 function Login() {
+  const {state, dispatch} = useContext(UserContext)
   const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("");
+
+  
 
  const postData = () => {
     fetch("/signin", {
@@ -23,6 +27,7 @@ function Login() {
         if(!data.error){
            localStorage.setItem("jwt", data.token);
            localStorage.setItem("user", JSON.stringify(data.user));
+           dispatch({type:"USER",payload:data.user})
            navigate("/home");
         }else{
            setError(data.error);

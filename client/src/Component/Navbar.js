@@ -1,8 +1,12 @@
-import React from "react";
-import {Link} from 'react-router-dom'
+import React,{useEffect, useReducer} from "react";
+import { reducer, initialStatement, initialState } from "../reducers/userReducer";
+import {Link,useNavigate} from 'react-router-dom'
+
+ export const UserContext = React.createContext();
 
 function NavBar(props){
-
+const navigate = useNavigate();
+const [state,dispatch] = useReducer(reducer, initialState)
     return (
       <div className="App">
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -32,7 +36,7 @@ function NavBar(props){
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/">
+                  <Link className="nav-link" to="/login">
                     Login
                   </Link>
                 </li>
@@ -50,8 +54,7 @@ function NavBar(props){
             </div>
           </div>
         </nav>
-
-        {props.children}
+        <UserContext.Provider value={{state, dispatch}}>{props.children}</UserContext.Provider>
       </div>
     );
 }

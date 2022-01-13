@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
 function CreatePost(){
@@ -8,6 +8,34 @@ function CreatePost(){
   const [image, setImage] = useState("");
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(()=>{
+    if(url){
+       fetch("/createpost", {
+         method: "POST",
+         headers: {
+           "Content-Type": "application/x-www-form-urlencoded",
+           Authorization: "Bearer " + localStorage.getItem("jwt"),
+         },
+         body: new URLSearchParams({
+           title,
+           body,
+           url,
+         }),
+       })
+         .then((res) => res.json())
+         .then((data) => {
+           if (!data.error) {
+             console.log(data);
+             setError(data.message);
+             navigate("/home");
+           } else {
+             setError(data.error);
+           }
+         })
+         .catch((err) => console.log(err));
+    }
+  },[url])
 
   const postToCloudinary = () => {
     console.log(localStorage.getItem("jwt"))
@@ -24,30 +52,7 @@ function CreatePost(){
         setUrl(data.secure_url);
       })
       .catch((err) => setError(err));
-
-      fetch("/createpost", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Authorization": "Bearer " + localStorage.getItem("jwt"),
-        },
-        body: new URLSearchParams({
-          title,
-          body,
-          url,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (!data.error) {
-            console.log(data);
-            setError(data.message);
-            navigate("/home");
-          } else {
-            setError(data.error);
-          }
-        })
-        .catch((err) => console.log(err));
+     
   }
 
     return (
