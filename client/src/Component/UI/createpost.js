@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../App";
 
 function CreatePost(){
   const navigate = useNavigate();
@@ -8,6 +9,14 @@ function CreatePost(){
   const [image, setImage] = useState("");
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
+
+  const {state, dispatch} = useContext(UserContext);
+  console.log((useContext(UserContext)))
+  useEffect(()=>{
+    if(state === null){
+      navigate("/login")
+    }
+  },[])
 
   useEffect(()=>{
     if(url){

@@ -1,17 +1,47 @@
-import React,{useEffect, useReducer} from "react";
+import React,{useEffect, useReducer, useContext} from "react";
 import { reducer, initialStatement, initialState } from "../reducers/userReducer";
 import {Link,useNavigate} from 'react-router-dom'
+import { UserContext } from "../App";
 
- export const UserContext = React.createContext();
 
 function NavBar(props){
-const navigate = useNavigate();
-const [state,dispatch] = useReducer(reducer, initialState)
+const {state, dispatch} = useContext(UserContext)
+console.log(state)
+const renderList = () => {
+  if(state){
+    return [
+      <li className="nav-item">
+        <Link className="nav-link" to="/home">
+          Home
+        </Link>
+      </li>,
+      <li className="nav-item">
+        <Link className="nav-link" to="/createpost">
+          CreatePost
+        </Link>
+      </li>,
+    ];
+  } else {
+    return [
+       <li className="nav-item">
+                  <Link className="nav-link" to="/signin">
+                    Signin
+                  </Link>
+                </li>,
+                <li className="nav-item">
+                  <Link className="nav-link" to="/signup">
+                    Signup
+                  </Link>
+                </li>
+    ]
+  }
+}
+
     return (
       <div className="App">
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container-fluid">
-            <Link className="navbar-brand" to="/">
+            <Link className="navbar-brand" to={state ? "/home" : "/login"}>
               The Gram
             </Link>
             <button
@@ -30,31 +60,12 @@ const [state,dispatch] = useReducer(reducer, initialState)
               id="navbarNav"
             >
               <ul className="navbar-nav " style={{ width: "fit-content" }}>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/profile">
-                    Profile
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/login">
-                    Login
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/signup">
-                    Signup
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/createpost">
-                    CreatePost
-                  </Link>
-                </li>
+               {renderList()}
               </ul>
             </div>
           </div>
         </nav>
-        <UserContext.Provider value={{state, dispatch}}>{props.children}</UserContext.Provider>
+      {props.children}
       </div>
     );
 }
