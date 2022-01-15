@@ -5,20 +5,27 @@ import { UserContext } from "../App";
 
 
 function NavBar(props){
+const navigate = useNavigate();
 const {state, dispatch} = useContext(UserContext)
-console.log(state)
 const renderList = () => {
   if(state){
     return [
-      <li className="nav-item">
-        <Link className="nav-link" to="/home">
-          Home
+      <li  className="nav-item">
+        <Link className="nav-link" to="/profile">
+          Profile
         </Link>
       </li>,
       <li className="nav-item">
         <Link className="nav-link" to="/createpost">
           CreatePost
         </Link>
+      </li>,
+      <li className="nav-item">
+        <button className="btn btn-primary" onClick={()=>{
+          localStorage.clear()
+          dispatch({type:"CLEAR"})
+          navigate("/login")
+        }}>Logout</button>
       </li>,
     ];
   } else {
