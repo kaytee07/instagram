@@ -8,6 +8,7 @@ import Login from './Component/UI/Login';
 import Signup from './Component/UI/Signup';
 import Profile from './Component/UI/Profile';
 import CreatePost from './Component/UI/createpost';
+import UserProfile from './Component/UI/UserProfile';
 
 export const UserContext = createContext();
 
@@ -34,8 +35,9 @@ function App() {
           <Route path="/Home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route exact path="/profile" element={<Profile />} />
           <Route path="/createpost" element={<CreatePost />} />
+          <Route path="/profile/:id" element={<UserProfile/>} />
         </Routes>
       </NavBar>
     </UserContext.Provider>
