@@ -2,6 +2,7 @@ import React, {useEffect, useState, useContext} from "react";
 import { UserContext } from "../../App";
 
 function Home(){
+const [comment, setComment] = useState([])
 const [data, setData] = useState([]);
 const [like, setLike] = useState("");
 const {state, dispatch} = useContext(UserContext);
@@ -67,6 +68,23 @@ const removeLikePost = (id) => {
         })
     .catch((e) => console.log(e));
 };
+
+const addComment = (text, postId) => {
+  
+  fetch("/comment", {
+    method:"PUT",
+    headers:{
+      "Content-Type":"application/x-www-form-urlencoded",
+      "Authorization":"Bearer " + localStorage.getItem("jwt")
+    },
+    body:new URLSearchParams({
+      text:text,
+      _id:postId
+    })
+  }).then(res=> res.json())
+    .then(data=> setComment(data))
+    .catch(err=> console.log(err))
+}
        
     return (
       <div className="home">
@@ -88,12 +106,12 @@ const removeLikePost = (id) => {
                      <i
                        className="bi bi-heart"
                        style={{ BackgroundColor: like ? "red" : "" }}
-                       onClick={() => {    
-                         if(!posts.likes.includes(state._id)){
-                          likePost(posts._id)
-                         }else{
-                          removeLikePost(posts._id)
-                         } 
+                       onClick={() => {
+                         if (!posts.likes.includes(state._id)) {
+                           likePost(posts._id);
+                         } else {
+                           removeLikePost(posts._id);
+                         }
                        }}
                      ></i>
                      <i className="bi bi-chat"></i>
@@ -105,16 +123,31 @@ const removeLikePost = (id) => {
                      </span>
                      {posts.body}
                    </p>
-                   <input
-                     placeholder="comment"
-                     style={{
-                       borderTop: "none",
-                       borderLeft: "none",
-                       borderRight: "none",
-                       width: "100%",
-                       borderColor: "rgba(0,0,0,.125)",
-                     }}
-                   />
+                   <form onSubmit={(e)=>{
+                     e.preventDefault()
+                     addComment(e.target[0].value,posts._id)
+                   }}>
+                     <input
+                       placeholder="comment"
+                       style={{
+                         borderTop: "none",
+                         borderLeft: "none",
+                         borderRight: "none",
+                         width: "100%",
+                         borderColor: "rgba(0,0,0,.125)",
+                       }}
+                     />
+                   </form>
+
+                    {
+                      comment.map(comments=>{
+                        console.log(comments)
+                        return(
+                          <div>{comments}</div>
+                        )
+                      })
+                    }
+
                  </div>
                </div>
              );
