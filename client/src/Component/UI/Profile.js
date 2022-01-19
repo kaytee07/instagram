@@ -6,12 +6,13 @@ import { UserContext } from "../../App";
 function Profile() {
   const [post, setPost] = useState([])
   const {state, dispatch} = useContext(UserContext);
+  console.log(useContext(UserContext));
   useEffect(()=>{
-    fetch("mypost",{
+    fetch("/mypost",{
       method:"POST",
       headers:{
         "Authorization":"Bearer " + localStorage.getItem("jwt"),
-        "Content-Tcd ..ype":"application/ x-www-form-urlencoded"
+        "Content-Type":"application/ x-www-form-urlencoded"
       }
     }).then(res=> res.json())
     .then(data=>{
@@ -43,7 +44,9 @@ function Profile() {
           />
         </div>
         <div className="col-7">
-          <h4>{state.name}</h4>
+          <h4>{
+            state? state.name: ""
+            }</h4>
           <div className="d-flex flex-row ">
             <h6 className="me-3">40 post</h6>
             <h6 className="me-3">10 followers</h6>

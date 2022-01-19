@@ -18,12 +18,14 @@ function App() {
   
   useEffect(()=>{
     const user = JSON.parse(localStorage.getItem("user"));
-    if(!user){
-      navigate("/login");
+    if(user){
+      dispatch({ type: "USER", payload: user }); 
     } else{
-      dispatch({ type: "USER", payload: user });
+        navigate("/login");
     }
   },[])
+
+   
   
 
  

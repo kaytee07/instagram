@@ -11,13 +11,7 @@ function CreatePost(){
   const [error, setError] = useState("");
 
   const {state, dispatch} = useContext(UserContext);
-  console.log((useContext(UserContext)))
-  useEffect(()=>{
-    if(state === null){
-      navigate("/login")
-    }
-  },[])
-
+  
   useEffect(()=>{
     if(url){
        fetch("/createpost", {

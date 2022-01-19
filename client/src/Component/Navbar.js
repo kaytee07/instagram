@@ -10,37 +10,42 @@ const {state, dispatch} = useContext(UserContext)
 const renderList = () => {
   if(state){
     return [
-      <li  className="nav-item">
+      <li key={1} className="nav-item">
         <Link className="nav-link" to="/profile">
           Profile
         </Link>
       </li>,
-      <li className="nav-item">
+      <li key={2} className="nav-item">
         <Link className="nav-link" to="/createpost">
           CreatePost
         </Link>
       </li>,
-      <li className="nav-item">
-        <button className="btn btn-primary" onClick={()=>{
-          localStorage.clear()
-          dispatch({type:"CLEAR"})
-          navigate("/login")
-        }}>Logout</button>
+      <li key={3} className="nav-item">
+        <button
+          className="btn btn-primary"
+          onClick={() => {
+            localStorage.clear();
+            dispatch({ type: "CLEAR" });
+            navigate("/login");
+          }}
+        >
+          Logout
+        </button>
       </li>,
     ];
   } else {
     return [
-       <li className="nav-item">
-                  <Link className="nav-link" to="/signin">
-                    Signin
-                  </Link>
-                </li>,
-                <li className="nav-item">
-                  <Link className="nav-link" to="/signup">
-                    Signup
-                  </Link>
-                </li>
-    ]
+      <li key={1} className="nav-item">
+        <Link className="nav-link" to="/signin">
+          Signin
+        </Link>
+      </li>,
+      <li key={2} className="nav-item">
+        <Link className="nav-link" to="/signup">
+          Signup
+        </Link>
+      </li>,
+    ];
   }
 }
 
