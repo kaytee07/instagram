@@ -82,9 +82,57 @@ const addComment = (text, postId) => {
       _id:postId
     })
   }).then(res=> res.json())
-    .then(data=> setComment(data))
+    .then(result=> {
+     console.log(result)
+      const newData = data.map(post=>{
+        if(post._id === result._id){
+          return result
+        }else{
+          return post
+        }
+      })
+      setData(newData)
+    })
     .catch(err=> console.log(err))
 }
+
+const deletePost = (id) => {
+  fetch(`/deletepost/${id}`,{
+    method:"DELETE",
+    headers:{
+      "Authorization": "Bearer " + localStorage.getItem("jwt")
+    }
+  }).then(res=> res.json())
+    .then(result=> {
+      setData(result.data)
+    })
+    .catch((err) =>console.log(err))
+}
+
+const deleteComment = (id, commId) => {
+  fetch(`/deletecomment/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: "Bearer " + localStorage.getItem("jwt"),
+    },
+    body:new URLSearchParams({
+      commId:commId
+    })
+  })
+    .then((res) => res.json())
+    .then((result) => {
+        const newData = data.map(info=>{
+          if(info._id === result._id){
+            return result
+          }else{
+            return info
+          }
+        })
+        setData(newData)
+    })
+    .catch((err) => console.log(err));
+};
        
     return (
       <div className="home">
@@ -95,8 +143,16 @@ const addComment = (text, postId) => {
                  key={index}
                  style={{ maxWidth: "40rem" }}
                >
-                 <div style={{ padding: "0rem 1rem" }}>
+                 <div 
+                 style={{ padding: "0rem 1rem",
+                          display:"flex",
+                          justifyContent:"space-between"
+                        }}
+                 >
                    <h5>{posts.postedBy.name}</h5>
+                   {
+                     posts.postedBy._id === state._id? <i class="bi bi-trash-fill" onClick={()=> deletePost(posts._id)}></i>: ""
+                   }
                  </div>
                  <div>
                    <img src={posts.photo} className="card-img-top" alt="..." />
@@ -140,12 +196,32 @@ const addComment = (text, postId) => {
                    </form>
 
                     {
-                      comment.map(comments=>{
-                        console.log(comments)
-                        return(
-                          <div>{comments}</div>
-                        )
-                      })
+                     posts.comment.map((msg, index)=>{
+
+                      return (
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <h6 key={index}>
+                            <span style={{ fontWeight: "500" }}>
+                              {msg.postedBy.name}
+                            </span>{" "}
+                            {msg.text}
+                          </h6>
+                          {msg.postedBy._id === posts.postedBy._id ? (
+                            <i
+                              class="bi bi-trash-fill"
+                              onClick={() => deleteComment(posts._id, msg._id)}
+                            ></i>
+                          ) : (
+                            " "
+                          )}
+                        </div>
+                      );
+                     })
                     }
 
                  </div>
