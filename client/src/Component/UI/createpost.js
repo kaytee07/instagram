@@ -29,7 +29,6 @@ function CreatePost(){
          .then((res) => res.json())
          .then((data) => {
            if (!data.error) {
-             console.log(data);
              setError(data.message);
              navigate("/home");
            } else {

@@ -9,7 +9,7 @@ const [like, setLike] = useState("");
 const {state, dispatch} = useContext(UserContext);
 console.log(useContext(UserContext));
 useEffect(()=>{
-  fetch('/allpost', {
+  fetch('/explore', {
     method:"POST",
     headers:{
       "Authorization":"Bearer " + localStorage.getItem("jwt")
@@ -185,7 +185,7 @@ const deleteComment = (id, commId) => {
                    <div>
                      <i
                        className="bi bi-heart"
-                       style={{ BackgroundColor: like ? "red" : "" }}
+                       style={{ BackgroundColor: like ? "red" : "",cursor:"pointer" }}
                        onClick={() => {
                          if (!posts.likes.includes(state._id)) {
                            likePost(posts._id);
@@ -243,13 +243,13 @@ const deleteComment = (id, commId) => {
                            justifyContent: "space-between",
                          }}
                        >
-                         <h6 key={index}>
+                         <div key={index}>
                            <span style={{ fontWeight: "500" }}>
                              {msg.postedBy.name}
                            </span>{" "}
                            {msg.text}
-                         </h6>
-                         {msg.postedBy._id === posts.postedBy._id ? (
+                         </div>
+                         {msg.postedBy._id === state._id? (
                            <i
                              className="bi bi-trash-fill"
                              onClick={() => deleteComment(posts._id, msg._id)}

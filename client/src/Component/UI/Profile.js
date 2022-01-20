@@ -5,20 +5,31 @@ import { UserContext } from "../../App";
 
 function Profile() {
   const [post, setPost] = useState([])
+  const [user, setUser] = useState("")
   const {state, dispatch} = useContext(UserContext);
-  console.log(useContext(UserContext));
+ 
+
   useEffect(()=>{
     fetch("/mypost",{
       method:"POST",
       headers:{
         "Authorization":"Bearer " + localStorage.getItem("jwt"),
         "Content-Type":"application/ x-www-form-urlencoded"
-      }
+      },
+      body:new URLSearchParams({
+        _id:state
+      })
     }).then(res=> res.json())
     .then(data=>{
       setPost(data.mypost)
+      setUser(data.user)
+      console.log(data)
     })
   },[])
+
+  function followBtn(){
+
+  }
 
   return (
     <div className="profile">
@@ -28,6 +39,7 @@ function Profile() {
           display: "flex",
           justifyContent: "space-around",
           margin: "18px",
+          maxWidth: "800px",
         }}
       >
         <div
@@ -38,36 +50,40 @@ function Profile() {
           }}
         >
           <img
-            style={{ width: "160px",  borderRadius: "50%" }}
+            style={{ width: "160px", borderRadius: "50%" }}
             alt="profilepic"
             src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fHBlb3BsZXxlbnwwfDJ8MHx8&auto=format&fit=crop&w=500&q=60"
           />
         </div>
-        <div className="col-7">
-          <h4>{
-            state? state.name: ""
-            }</h4>
-          <div className="d-flex flex-row ">
-            <h6 className="me-3">40 post</h6>
-            <h6 className="me-3">10 followers</h6>
-            <h6 className="me-3">20 following</h6>
+        <div className="col-7 d-flex flex-row">
+          <div>
+            {console.log()}
+            <h4>{state ? state.name : ""}</h4>
+            <h5>{state ? state.email : ""}</h5>
+            <section className="d-flex flex-row ">
+              <h6 className="me-3">{post.length} post</h6>
+              <h6 className="me-3">
+                {user ? user.followers.length : ""} followers
+              </h6>
+              <h6 className="me-3">
+                {user ? user.following.length : ""} following
+              </h6>
+            </section>
           </div>
         </div>
       </div>
       <div className="gallery">
-        {
-          post.map((post,index)=> {
-            return (
-              <img
-                style={{ height: "213px" }}
-                key={index}
-                className="item"
-                alt=""
-                src={post.photo}
-              />
-            );
-          })
-        }
+        {post.map((post, index) => {
+          return (
+            <img
+              style={{ height: "213px" }}
+              key={index}
+              className="item"
+              alt=""
+              src={post.photo}
+            />
+          );
+        })}
       </div>
     </div>
   );
