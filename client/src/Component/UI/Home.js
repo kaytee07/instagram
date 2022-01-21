@@ -150,9 +150,10 @@ const deleteComment = (id, commId) => {
                      padding: "0rem 1rem",
                      display: "flex",
                      justifyContent: "space-between",
+                     alignContent:"center"
                    }}
                  >
-                   <h5>
+                   <h6 style={{margin:"0px", padding:"5px 0px"}}>
                      {posts.postedBy._id === state._id ? (
                        <Link
                          style={{ textDecoration: "none", color: "black" }}
@@ -168,7 +169,7 @@ const deleteComment = (id, commId) => {
                          {posts.postedBy.name}
                        </Link>
                      )}
-                   </h5>
+                   </h6>
                    {posts.postedBy._id === state._id ? (
                      <i
                        className="bi bi-trash-fill"

@@ -54,6 +54,23 @@ function Profile() {
             alt="profilepic"
             src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fHBlb3BsZXxlbnwwfDJ8MHx8&auto=format&fit=crop&w=500&q=60"
           />
+          <div
+            style={{
+              position: "relative",
+              display:"flex",
+              alignItems:"center",
+              justifyContent:"center",
+              height:"2rem",
+              width: "2rem",
+              bottom:"18%",
+              left: "47%",
+              backgroundColor: "white",
+              borderRadius: "50%",
+              boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px"
+            }}
+          >
+            <i class="bi bi-upload" style={{margin:"0px"}}></i>
+          </div>
         </div>
         <div className="col-7 d-flex flex-row">
           <div>

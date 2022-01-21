@@ -56,33 +56,26 @@ const renderList = () => {
 
     return (
       <div className="App">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <div className="container-fluid">
-            <Link className="navbar-brand" to={state ? "/home" : "/login"}>
-              The Gram
-            </Link>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarNav"
-              aria-controls="navbarNav"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div
-              className="collapse navbar-collapse w-0 d-flex flex-row-reverse"
-              id="navbarNav"
-            >
-              <ul className="navbar-nav " style={{ width: "fit-content" }}>
-               {renderList()}
-              </ul>
-            </div>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+          <Link style={{width: "75%"}} className="navbar-brand" to={state ? "/home" : "/login"}>
+            The Gram
+          </Link>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="navbar-collapse collapse" id="navbarNav">
+            <ul className="navbar-nav">{renderList()}</ul>
           </div>
         </nav>
-      {props.children}
+        {props.children}
       </div>
     );
 }
