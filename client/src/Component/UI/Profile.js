@@ -5,8 +5,58 @@ import { UserContext } from "../../App";
 
 function Profile() {
   const [post, setPost] = useState([])
-  const [user, setUser] = useState("")
+  const [profileURL, setProfileURL] = useState("");
+  const [image, setImage] = useState("");
+  const [user, setUser] = useState("");
+  const [profilePicture, setProfilePicture] = useState(false)
   const {state, dispatch} = useContext(UserContext);
+
+  const profilePicModal = () => {
+    profilePicture ? setProfilePicture(false): setProfilePicture(true)
+  }
+
+ 
+
+  useEffect(()=>{
+    if (profileURL) {
+       fetch("/postprofilepicture", {
+         method: "PUT",
+         headers: {
+           "Content-Type": "application/x-www-form-urlencoded",
+           Authorization: "Bearer " + localStorage.getItem("jwt"),
+         },
+         body: new URLSearchParams({
+            profileURL
+         }),
+       })
+         .then((res) => res.json())
+         .then((data) => {
+           localStorage.setItem("user", JSON.stringify(data));
+           const user = JSON.parse(localStorage.getItem("user"));
+           dispatch({ type: "USER", payload: user });
+           
+         })
+         .catch((err) => console.log(err));
+    }
+    }, [profileURL])
+
+  function uploadProfilePicture() {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "instagram");
+    data.append("cloud_name", "dbyubqmb0");
+
+    fetch("https://api.cloudinary.com/v1_1/dbyubqmb0/image/upload",{
+      method:"POST",
+      body:data
+    }).then(res=> res.json())
+      .then(data=>{
+        setProfileURL(data.secure_url)
+        console.log(data)
+      })
+      .catch((err)=> console.log(err))
+  }
+
  
 
   useEffect(()=>{
@@ -23,16 +73,16 @@ function Profile() {
     .then(data=>{
       setPost(data.mypost)
       setUser(data.user)
-      console.log(data)
     })
   },[])
 
-  function followBtn(){
-
-  }
 
   return (
-    <div className="profile">
+    <div className="profile ">
+      <div
+        className={profilePicture ? "layer" : ""}
+        onClick={() => setProfilePicture(false)}
+      ></div>
       <div
         className="row header"
         style={{
@@ -52,29 +102,53 @@ function Profile() {
           <img
             style={{ width: "160px", borderRadius: "50%" }}
             alt="profilepic"
-            src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fHBlb3BsZXxlbnwwfDJ8MHx8&auto=format&fit=crop&w=500&q=60"
+            src={
+              state.profilePicture
+                ? state.profilePicture
+                : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+            }
           />
           <div
+            onClick={() => profilePicModal()}
             style={{
               position: "relative",
-              display:"flex",
-              alignItems:"center",
-              justifyContent:"center",
-              height:"2rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "2rem",
               width: "2rem",
-              bottom:"18%",
+              bottom: "28%",
+              left: "58%",
+              backgroundColor: "white",
+              borderRadius: "50%",
+              boxShadow:
+                "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
+            }}
+          >
+            <i className="bi bi-trash" style={{ margin: "0px" }}></i>
+          </div>
+          <div
+            onClick={() => profilePicModal()}
+            style={{
+              position: "relative",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "2rem",
+              width: "2rem",
+              bottom: "27%",
               left: "47%",
               backgroundColor: "white",
               borderRadius: "50%",
-              boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px"
+              boxShadow:
+                "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
             }}
           >
-            <i class="bi bi-upload" style={{margin:"0px"}}></i>
+            <i className="bi bi-upload" style={{ margin: "0px" }}></i>
           </div>
         </div>
         <div className="col-7 d-flex flex-row">
           <div>
-            {console.log()}
             <h4>{state ? state.name : ""}</h4>
             <h5>{state ? state.email : ""}</h5>
             <section className="d-flex flex-row ">
@@ -102,6 +176,30 @@ function Profile() {
           );
         })}
       </div>
+      {profilePicture ? (
+        <div className="App profilepicmodal">
+          <div>
+            <label className="mb-3" htmlFor="exampleInputCaption1">
+              Upload profile picture
+            </label>
+            <input
+              type="file"
+              className="form-control mb-3"
+              id="exampleInputCaption1"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                profilePicModal(false);
+                uploadProfilePicture();
+              }}
+            >
+              Upload
+            </button>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

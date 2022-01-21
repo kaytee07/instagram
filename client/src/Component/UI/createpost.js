@@ -40,7 +40,6 @@ function CreatePost(){
   },[url])
 
   const postToCloudinary = () => {
-    console.log(localStorage.getItem("jwt"))
     const data = new FormData();
     data.append("file", image);
     data.append("upload_preset","instagram");
