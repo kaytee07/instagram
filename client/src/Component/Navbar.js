@@ -57,7 +57,7 @@ const renderList = () => {
     return (
       <div className="App">
         <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
-          <Link style={{width: "75%"}} className="navbar-brand" to={state ? "/home" : "/login"}>
+          <Link style={{width: "75%"}} className="navbar-brand" to={state ? "/" : "/login"}>
             The Gram
           </Link>
           <button

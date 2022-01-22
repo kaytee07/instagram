@@ -1,5 +1,6 @@
 import React,{useState, useEffect, useContext} from "react";
 import { UserContext } from "../../App";
+import axios from 'axios'
 
 
 
@@ -17,47 +18,41 @@ function Profile() {
 
  
 
-  useEffect(()=>{
-    if (profileURL) {
-       fetch("/postprofilepicture", {
-         method: "PUT",
-         headers: {
-           "Content-Type": "application/x-www-form-urlencoded",
-           Authorization: "Bearer " + localStorage.getItem("jwt"),
-         },
-         body: new URLSearchParams({
-            profileURL
-         }),
-       })
-         .then((res) => res.json())
-         .then((data) => {
-           localStorage.setItem("user", JSON.stringify(data));
-           const user = JSON.parse(localStorage.getItem("user"));
-           dispatch({ type: "USER", payload: user });
-           
-         })
-         .catch((err) => console.log(err));
-    }
-    }, [profileURL])
 
   function uploadProfilePicture() {
     const data = new FormData();
-    data.append("file", image);
-    data.append("upload_preset", "instagram");
-    data.append("cloud_name", "dbyubqmb0");
+    data.append("file", image)
 
-    fetch("https://api.cloudinary.com/v1_1/dbyubqmb0/image/upload",{
-      method:"POST",
-      body:data
-    }).then(res=> res.json())
-      .then(data=>{
-        setProfileURL(data.secure_url)
-        console.log(data)
-      })
-      .catch((err)=> console.log(err))
+    axios
+      .put("/postprofilepicture", data, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      })  
+     .then((res) =>{
+        localStorage.setItem("user", JSON.stringify(res.data));
+        const user = JSON.parse(localStorage.getItem("user"));
+        dispatch({ type: "USER", payload: user });
+     })
+     .catch((err) => console.log(err));
   }
 
- 
+  function removeProfilePicture() {
+    const data = new FormData();
+    data.append("file", image);
+     axios
+      .put("/removeprofilepicture", data, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      })
+      .then((res) => {
+        localStorage.setItem("user", JSON.stringify(res.data));
+        const user = JSON.parse(localStorage.getItem("user"));
+        dispatch({ type: "USER", payload: user });
+      })
+      .catch((err) => console.log(err));
+  }
 
   useEffect(()=>{
     fetch("/mypost",{
@@ -102,14 +97,10 @@ function Profile() {
           <img
             style={{ width: "160px", borderRadius: "50%" }}
             alt="profilepic"
-            src={
-              state.profilePicture
-                ? state.profilePicture
-                : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-            }
+            src={state ? state.profilePicture.url: ""}
           />
           <div
-            onClick={() => profilePicModal()}
+            onClick={() => removeProfilePicture()}
             style={{
               position: "relative",
               display: "flex",
@@ -125,10 +116,13 @@ function Profile() {
                 "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
             }}
           >
-            <i className="bi bi-trash" style={{ margin: "0px" }}></i>
+            <i className="bi bi-trash"  onClick={() => removeProfilePicture()} style={{ margin: "0px" }}></i>
           </div>
           <div
-            onClick={() => profilePicModal()}
+            onClick={() => {
+                profilePicModal();
+                uploadProfilePicture()
+            }}
             style={{
               position: "relative",
               display: "flex",
@@ -144,7 +138,12 @@ function Profile() {
                 "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
             }}
           >
-            <i className="bi bi-upload" style={{ margin: "0px" }}></i>
+            <i className="bi bi-upload" onClick={
+              () => {
+                profilePicModal();
+                uploadProfilePicture()
+              }
+              } style={{ margin: "0px" }}></i>
           </div>
         </div>
         <div className="col-7 d-flex flex-row">
@@ -184,6 +183,7 @@ function Profile() {
             </label>
             <input
               type="file"
+              name="file"
               className="form-control mb-3"
               id="exampleInputCaption1"
               onChange={(e) => setImage(e.target.files[0])}

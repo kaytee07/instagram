@@ -35,7 +35,7 @@ function App() {
     <UserContext.Provider value={{ dispatch, state }}>
       <NavBar>
         <Routes>
-          <Route path="/Home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

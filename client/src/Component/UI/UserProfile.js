@@ -86,8 +86,9 @@ function UserProfile() {
               <img
                 style={{ width: "160px", borderRadius: "50%" }}
                 alt="profilepic"
-                src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fHBlb3BsZXxlbnwwfDJ8MHx8&auto=format&fit=crop&w=500&q=60"
+                src= {name.profilePicture.url}
               />
+
             </div>
             <div className="col-7 d-flex flex-row">
               <div>
