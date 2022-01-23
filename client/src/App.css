@@ -66,3 +66,9 @@
    transition: 1s ease-in;
 }
 
+@media only screen and (max-device-width: 480px){
+  .centername{
+    text-align: center;
+  }
+}
+

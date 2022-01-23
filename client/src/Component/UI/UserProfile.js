@@ -77,7 +77,7 @@ function UserProfile() {
             }}
           >
             <div
-              className="col-4"
+              className="col-md-4 mb-3"
               style={{
                 display: "inline-block",
                 width: "fit-content",
@@ -86,21 +86,26 @@ function UserProfile() {
               <img
                 style={{ width: "160px", borderRadius: "50%" }}
                 alt="profilepic"
-                src= {name.profilePicture.url}
+                src={name.profilePicture.url}
               />
-
             </div>
-            <div className="col-7 d-flex flex-row">
+            <div
+              className="col-md-7 d-flex flex-md-row flex-column justify"
+              style={{
+                display: "inline-block",
+                width: "fit-content",
+              }}
+            >
               <div>
-                <h4>{name.name}</h4>
-                <h5>{name.email}</h5>
-                <section className="d-flex flex-row ">
-                  <h6 className="me-3">{post.length} post</h6>
+                <h4 className="centername">{name.name}</h4>
+                <h5 className="centername">{name.email}</h5>
+                <section className="d-flex flex-row justify-content-between">
+                  <h6 className="me-3 ">{post.length} post</h6>
                   <h6 className="me-3">{name.followers.length} followers</h6>
                   <h6 className="me-3">{name.following.length} following</h6>
                 </section>
               </div>
-              <div>
+              <div className="d-flex justify-content-center">
                 {name.followers.includes(state._id) ? (
                   <button
                     onClick={() => unFollowUser(name._id)}

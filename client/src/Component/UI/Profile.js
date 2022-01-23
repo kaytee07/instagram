@@ -88,7 +88,7 @@ function Profile() {
         }}
       >
         <div
-          className="col-4"
+          className="col-md-4"
           style={{
             display: "inline-block",
             width: "fit-content",
@@ -97,7 +97,7 @@ function Profile() {
           <img
             style={{ width: "160px", borderRadius: "50%" }}
             alt="profilepic"
-            src={state ? state.profilePicture.url: ""}
+            src={state ? state.profilePicture.url : ""}
           />
           <div
             onClick={() => removeProfilePicture()}
@@ -116,12 +116,16 @@ function Profile() {
                 "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
             }}
           >
-            <i className="bi bi-trash"  onClick={() => removeProfilePicture()} style={{ margin: "0px" }}></i>
+            <i
+              className="bi bi-trash"
+              onClick={() => removeProfilePicture()}
+              style={{ margin: "0px" }}
+            ></i>
           </div>
           <div
             onClick={() => {
-                profilePicModal();
-                uploadProfilePicture()
+              profilePicModal();
+              uploadProfilePicture();
             }}
             style={{
               position: "relative",
@@ -138,15 +142,23 @@ function Profile() {
                 "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
             }}
           >
-            <i className="bi bi-upload" onClick={
-              () => {
+            <i
+              className="bi bi-upload"
+              onClick={() => {
                 profilePicModal();
-                uploadProfilePicture()
-              }
-              } style={{ margin: "0px" }}></i>
+                uploadProfilePicture();
+              }}
+              style={{ margin: "0px" }}
+            ></i>
           </div>
         </div>
-        <div className="col-7 d-flex flex-row">
+        <div
+          className="col-md-7 d-flex flex-row"
+          style={{
+            display: "inline-block",
+            width: "fit-content",
+          }}
+        >
           <div>
             <h4>{state ? state.name : ""}</h4>
             <h5>{state ? state.email : ""}</h5>

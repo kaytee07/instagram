@@ -28,7 +28,7 @@ function Login() {
            localStorage.setItem("jwt", data.token);
            localStorage.setItem("user", JSON.stringify(data.user));
            dispatch({type:"USER",payload:data.user})
-           navigate("/home");
+           navigate("/");
         }else{
            setError(data.error);
         }
