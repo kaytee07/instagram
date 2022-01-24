@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../App";
+import axios from "axios";
 
 function CreatePost(){
   const navigate = useNavigate();
@@ -12,47 +13,25 @@ function CreatePost(){
 
   const {state, dispatch} = useContext(UserContext);
   
-  useEffect(()=>{
-    if(url){
-       fetch("/createpost", {
-         method: "POST",
-         headers: {
-           "Content-Type": "application/x-www-form-urlencoded",
-           Authorization: "Bearer " + localStorage.getItem("jwt"),
-         },
-         body: new URLSearchParams({
-           title,
-           body,
-           url,
-         }),
-       })
-         .then((res) => res.json())
-         .then((data) => {
-           if (!data.error) {
-             setError(data.message);
-             navigate("/home");
-           } else {
-             setError(data.error);
-           }
-         })
-         .catch((err) => console.log(err));
-    }
-  },[url])
+  
 
   const postToCloudinary = () => {
-    const data = new FormData();
-    data.append("file", image);
-    data.append("upload_preset","instagram");
-    data.append("cloud_name", "dbyubqmb0");
-    fetch("https://api.cloudinary.com/v1_1/dbyubqmb0/image/upload", {
-      method: "POST",
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUrl(data.secure_url);
-      })
-      .catch((err) => setError(err));
+     const data = new FormData();
+     data.append("file", image);
+     data.append("body", JSON.stringify({
+         title: title,
+         body: body,
+       }))
+     axios.post("/createpost", data, {
+       headers: {
+         "Content-Type": "multipart/form-data",
+         Authorization: "Bearer " + localStorage.getItem("jwt"),
+       }
+     })
+       .then((res) => {
+         navigate("/")      
+       })
+       .catch((err) => setError(err));
      
   }
 
@@ -77,7 +56,7 @@ function CreatePost(){
             <h5>Upload Photo</h5>
             <div className="mb-3">
               <label htmlFor="exampleInputTitle1" className="form-label">
-                Title
+                Location
               </label>
               <input
                 type="text"
@@ -100,6 +79,7 @@ function CreatePost(){
             </div>
             <div className="input-group mb-3">
               <input
+                name="file"
                 type="file"
                 className="form-control"
                 id="exampleInputCaption1"

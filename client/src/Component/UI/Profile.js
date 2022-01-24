@@ -182,7 +182,7 @@ function Profile() {
               key={index}
               className="item"
               alt=""
-              src={post.photo}
+              src={post.url}
             />
           );
         })}

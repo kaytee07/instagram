@@ -9,7 +9,6 @@ function UserProfile() {
   const [post, setPost] = useState([]);
   const { state, dispatch } = useContext(UserContext);
   const {id} = useParams();
-  console.log(id)
   useEffect(() => {
     fetch(`/user/${id}`, {
       method: "GET",
@@ -21,7 +20,6 @@ function UserProfile() {
       .then((data) => {
         setPost(data.posts)
         setName(data.user);
-        console.log(data.user)
       });
   }, []);
 

@@ -3,11 +3,9 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../../App";
 
 function Explore() {
-  const [comment, setComment] = useState([]);
   const [data, setData] = useState([]);
   const [like, setLike] = useState("");
   const { state, dispatch } = useContext(UserContext);
-  console.log(useContext(UserContext));
   useEffect(() => {
     fetch("/allpost", {
       method: "POST",
@@ -17,7 +15,7 @@ function Explore() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
+       
         setData(result.post);
       });
   }, []);
@@ -86,7 +84,6 @@ function Explore() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
         const newData = data.map((post) => {
           if (post._id === result._id) {
             return result;
@@ -126,7 +123,7 @@ function Explore() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result)
+        
         const newData = data.map((post) => {
           if (post._id === result._id) {
             return result;
@@ -156,25 +153,56 @@ function Explore() {
                 justifyContent: "space-between",
               }}
             >
-              <h5>
+              <div style={{ margin: "0px", padding: "5px 0px" }}>
                 {posts.postedBy._id === state._id ? (
                   <Link
                     style={{ textDecoration: "none", color: "black" }}
                     to={`/profile`}
                   >
-                    {posts.postedBy.name}
+                    <div className="d-flex">
+                      <img
+                        style={{ borderRadius: "50%" }}
+                        src={posts.postedBy.profilePicture.url.replace(
+                          "upload",
+                          "upload/w_35"
+                        )}
+                        alt="..."
+                      />
+                      <p
+                        className=""
+                        style={{ padding: "6px 5px", margin: "0" }}
+                      >
+                        {posts.postedBy.name}
+                      </p>
+                    </div>
                   </Link>
                 ) : (
                   <Link
                     style={{ textDecoration: "none", color: "black" }}
                     to={`/profile/${posts.postedBy._id}`}
                   >
-                    {posts.postedBy.name}
+                    <div className="d-flex">
+                      <img
+                        style={{ borderRadius: "50%" }}
+                        src={posts.postedBy.profilePicture.url.replace(
+                          "upload",
+                          "upload/w_35"
+                        )}
+                        alt="..."
+                      />
+                      <p
+                        className=""
+                        style={{ padding: "6px 5px", margin: "0" }}
+                      >
+                        {posts.postedBy.name}
+                      </p>
+                    </div>
                   </Link>
                 )}
-              </h5>
+              </div>
               {posts.postedBy._id === state._id ? (
                 <i
+                  style={{ padding: "10px 0px", margin: "0" }}
                   className="bi bi-trash-fill"
                   onClick={() => deletePost(posts._id)}
                 ></i>
@@ -183,13 +211,16 @@ function Explore() {
               )}
             </div>
             <div>
-              <img src={posts.photo} className="card-img-top" alt="..." />
+              <img src={posts.url} className="card-img-top" alt="..." />
             </div>
             <div className="card-body">
               <div>
                 <i
                   className="bi bi-heart"
-                  style={{ BackgroundColor: like ? "red" : "", cursor:"pointer" }}
+                  style={{
+                    BackgroundColor: like ? "red" : "",
+                    cursor: "pointer",
+                  }}
                   onClick={() => {
                     if (!posts.likes.includes(state._id)) {
                       likePost(posts._id);

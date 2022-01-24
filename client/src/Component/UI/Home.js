@@ -85,7 +85,6 @@ const addComment = (text, postId) => {
     })
   }).then(res=> res.json())
     .then(result=> {
-     console.log(result)
       const newData = data.map(post=>{
         if(post._id === result._id){
           return result
@@ -145,33 +144,65 @@ const deleteComment = (id, commId) => {
                  key={index}
                  style={{ maxWidth: "40rem" }}
                >
+                 {console.log(state.profilePicture.url)}
                  <div
                    style={{
                      padding: "0rem 1rem",
                      display: "flex",
                      justifyContent: "space-between",
-                     alignContent:"center"
+                     alignContent: "center",
                    }}
                  >
-                   <h6 style={{margin:"0px", padding:"5px 0px"}}>
+                   <div style={{ margin: "0px", padding: "5px 0px" }}>
                      {posts.postedBy._id === state._id ? (
                        <Link
                          style={{ textDecoration: "none", color: "black" }}
                          to={`/profile`}
                        >
-                         {posts.postedBy.name}
+                         <div className="d-flex">
+                           <img
+                             style={{ borderRadius: "50%" }}
+                             src={posts.postedBy.profilePicture.url.replace(
+                               "upload",
+                               "upload/w_35"
+                             )}
+                             alt="..."
+                           />
+                           <p
+                             className=""
+                             style={{ padding: "6px 5px", margin: "0" }}
+                           >
+                             {posts.postedBy.name}
+                           </p>
+                         </div>
                        </Link>
                      ) : (
                        <Link
                          style={{ textDecoration: "none", color: "black" }}
                          to={`/profile/${posts.postedBy._id}`}
                        >
-                         {posts.postedBy.name}
+                         <div className="d-flex">
+                           <img
+                             style={{ borderRadius: "50%" }}
+                             src={posts.postedBy.profilePicture.url.replace(
+                               "upload",
+                               "upload/w_35"
+                             )}
+                             alt="..."
+                           />
+                           <p
+                             className=""
+                             style={{ padding: "6px 5px", margin: "0" }}
+                           >
+                             {posts.postedBy.name}
+                           </p>
+                         </div>
                        </Link>
                      )}
-                   </h6>
+                   </div>
                    {posts.postedBy._id === state._id ? (
                      <i
+                       style={{ padding: "10px 0px", margin: "0" }}
                        className="bi bi-trash-fill"
                        onClick={() => deletePost(posts._id)}
                      ></i>
@@ -180,13 +211,16 @@ const deleteComment = (id, commId) => {
                    )}
                  </div>
                  <div>
-                   <img src={posts.photo} className="card-img-top" alt="..." />
+                   <img src={posts.url} className="card-img-top" alt="..." />
                  </div>
                  <div className="card-body">
                    <div>
                      <i
                        className="bi bi-heart"
-                       style={{ BackgroundColor: like ? "red" : "",cursor:"pointer" }}
+                       style={{
+                         BackgroundColor: like ? "red" : "",
+                         cursor: "pointer",
+                       }}
                        onClick={() => {
                          if (!posts.likes.includes(state._id)) {
                            likePost(posts._id);
@@ -250,7 +284,7 @@ const deleteComment = (id, commId) => {
                            </span>{" "}
                            {msg.text}
                          </div>
-                         {msg.postedBy._id === state._id? (
+                         {msg.postedBy._id === state._id ? (
                            <i
                              className="bi bi-trash-fill"
                              onClick={() => deleteComment(posts._id, msg._id)}
