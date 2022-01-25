@@ -6,7 +6,6 @@ import axios from 'axios'
 
 function Profile() {
   const [post, setPost] = useState([])
-  const [profileURL, setProfileURL] = useState("");
   const [image, setImage] = useState("");
   const [user, setUser] = useState("");
   const [profilePicture, setProfilePicture] = useState(false)
@@ -82,39 +81,27 @@ function Profile() {
         className="row header"
         style={{
           display: "flex",
-          justifyContent: "space-around",
-          margin: "18px",
+          justifyContent: "center",
+          margin: "18px auto",
           maxWidth: "800px",
         }}
       >
         <div
-          className="col-md-4"
+          className="col-4 d-flex flex-row align-items-center"
           style={{
             display: "inline-block",
             width: "fit-content",
           }}
         >
           <img
-            style={{ width: "160px", borderRadius: "50%" }}
+            id="phoneprofile"
+            className="profilefone"
             alt="profilepic"
             src={state ? state.profilePicture.url : ""}
           />
           <div
             onClick={() => removeProfilePicture()}
-            style={{
-              position: "relative",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "2rem",
-              width: "2rem",
-              bottom: "28%",
-              left: "58%",
-              backgroundColor: "white",
-              borderRadius: "50%",
-              boxShadow:
-                "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-            }}
+            className="trash"
           >
             <i
               className="bi bi-trash"
@@ -127,20 +114,7 @@ function Profile() {
               profilePicModal();
               uploadProfilePicture();
             }}
-            style={{
-              position: "relative",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "2rem",
-              width: "2rem",
-              bottom: "27%",
-              left: "47%",
-              backgroundColor: "white",
-              borderRadius: "50%",
-              boxShadow:
-                "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-            }}
+            className="upload"
           >
             <i
               className="bi bi-upload"
@@ -153,27 +127,32 @@ function Profile() {
           </div>
         </div>
         <div
-          className="col-md-7 d-flex flex-row"
+          className="col-7 d-flex flex-row align-items-center"
           style={{
             display: "inline-block",
             width: "fit-content",
           }}
         >
           <div>
-            <h4>{state ? state.name : ""}</h4>
-            <h5>{state ? state.email : ""}</h5>
-            <section className="d-flex flex-row ">
-              <h6 className="me-3">{post.length} post</h6>
-              <h6 className="me-3">
+            <div className="mb-3">
+              <h4>{state ? state.name : ""}</h4>
+            </div>
+            <section className="mb-2 d-flex flex-row justify-space-between ">
+              <h6 className="">{post.length} post</h6>
+              <h6 className="ml-3">
                 {user ? user.followers.length : ""} followers
               </h6>
-              <h6 className="me-3">
+              <h6 className="ml-3">
                 {user ? user.following.length : ""} following
               </h6>
             </section>
+            <div className="mb-3">
+              <h5>{state ? state.email : ""}</h5>
+            </div>
           </div>
         </div>
       </div>
+      <hr style={{ margin: "4rem 0" }}></hr>
       <div className="gallery">
         {post.map((post, index) => {
           return (

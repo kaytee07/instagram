@@ -87,6 +87,7 @@ const addComment = (text, postId) => {
     .then(result=> {
       const newData = data.map(post=>{
         if(post._id === result._id){
+          console.log(result)
           return result
         }else{
           return post
@@ -125,6 +126,7 @@ const deleteComment = (id, commId) => {
     .then((result) => {
         const newData = data.map(info=>{
           if(info._id === result._id){
+            console.log(result)
             return result
           }else{
             return info

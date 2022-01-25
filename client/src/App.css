@@ -9,7 +9,7 @@
 
 .gallery{
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  grid-template-columns: repeat(3, minmax(2rem, 1fr));
   justify-items: center;
   grid-gap: 10px;
   margin-top: 40px;
@@ -66,9 +66,62 @@
    transition: 1s ease-in;
 }
 
+.profilefone{
+  width: 160px;
+ border-radius: 50%
+}
+
+.trash{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  width: 2rem;
+  top: 35%;
+  right:18%;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow:rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px
+}
+
+.upload{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  width: 2rem;
+  top: 9%;
+  right:22%;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow:rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px
+}
+
 @media only screen and (max-device-width: 480px){
   .centername{
     text-align: center;
+  }
+
+  .gallery{
+    grid-template-columns: 1fr 1fr 1fr
+  }
+  .profile {
+    width: 100%;
+    margin: 0px auto;
+}
+  .profilefone{
+    width: 100px;
+  }
+
+  .trash{
+    height: 30px;
+    width: 10rem;
+  }
+
+  .upload{
+
   }
 }
 
