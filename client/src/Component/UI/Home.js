@@ -216,7 +216,6 @@ const deleteComment = (id, commId) => {
                      <i
                        className="bi bi-heart"
                        style={{
-                         BackgroundColor: like ? "red" : "",
                          cursor: "pointer",
                        }}
                        onClick={() => {

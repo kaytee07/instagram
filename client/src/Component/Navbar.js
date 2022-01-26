@@ -57,7 +57,7 @@ const renderList = () => {
 
     const searchUser = (query) =>{
       setQuery(query)
-      console.log(query)
+     
       fetch("/searchusers", {
         method: "POST",
         headers: {
@@ -69,7 +69,6 @@ const renderList = () => {
         })
       }).then(res=> res.json())
         .then(data=> {
-          console.log(data)
           setData(data.user);
         })
     }
@@ -88,23 +87,24 @@ const renderList = () => {
               data-target="#exampleModalCenter"
             ></i>
           </div>
-          <div className="ml-auto">
+          
             <div className="navb navbar-collapse collapse " id="navbarNav">
-              <ul className="navbar-nav">{renderList()}</ul>
+              <ul className="navbar-nav ml-auto">{renderList()}</ul>
             </div>
+          
+          <div>
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
           </div>
-
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
         </nav>
         {props.children}
         <div
@@ -129,36 +129,34 @@ const renderList = () => {
                   />
                 </div>
                 <ul class="list-unstyled">
-                  {
-                    query ?
-                    data.map((user, index)=>{
-                      return (
-                        <li data-dismiss="modal" key={index} class="media">
-                          <img
-                            style={{ borderRadius: "50%" }}
-                            class="mr-3"
-                            src={user.profilePicture.url.replace(
-                              "upload",
-                              "upload/w_35"
-                            )}
-                            alt="Generic placeholder"
-                          />
-                          <div class="media-body">
-                            <Link
-                              to={
-                                state._id === user._id
-                                  ? `profile`
-                                  : `profile/${user._id}`
-                              }
-                            >
-                              {user.name}
-                            </Link>
-                          </div>
-                        </li>
-                      );           
-                    }):
-                    ""
-                  }
+                  {query
+                    ? data.map((user, index) => {
+                        return (
+                          <li data-dismiss="modal" key={index} class="media">
+                            <img
+                              style={{ borderRadius: "50%" }}
+                              class="mr-3"
+                              src={user.profilePicture.url.replace(
+                                "upload",
+                                "upload/w_35"
+                              )}
+                              alt="Generic placeholder"
+                            />
+                            <div class="media-body">
+                              <Link
+                                to={
+                                  state._id === user._id
+                                    ? `profile`
+                                    : `profile/${user._id}`
+                                }
+                              >
+                                {user.name}
+                              </Link>
+                            </div>
+                          </li>
+                        );
+                      })
+                    : ""}
                 </ul>
               </div>
               <div className="modal-footer">
