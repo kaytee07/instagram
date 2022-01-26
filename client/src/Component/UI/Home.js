@@ -16,7 +16,6 @@ useEffect(()=>{
     }
   }).then(res=> res.json())
     .then(result=>{
-      console.log(result)
       setData(result.post)
     })
 }, [])
@@ -87,7 +86,6 @@ const addComment = (text, postId) => {
     .then(result=> {
       const newData = data.map(post=>{
         if(post._id === result._id){
-          console.log(result)
           return result
         }else{
           return post
@@ -126,7 +124,6 @@ const deleteComment = (id, commId) => {
     .then((result) => {
         const newData = data.map(info=>{
           if(info._id === result._id){
-            console.log(result)
             return result
           }else{
             return info
@@ -146,7 +143,6 @@ const deleteComment = (id, commId) => {
                  key={index}
                  style={{ maxWidth: "40rem" }}
                >
-                 {console.log(state.profilePicture.url)}
                  <div
                    style={{
                      padding: "0rem 1rem",
@@ -231,11 +227,11 @@ const deleteComment = (id, commId) => {
                          }
                        }}
                      ></i>
-                     <i className="bi bi-chat"></i>
                    </div>
                    <p>{posts.likes.length} likes</p>
-                   <p className="card-text">
-                     <span>
+                   <p className="card-text d-flex">
+                     <span className="mr-1">
+                       <strong>
                        {posts.postedBy._id === state._id ? (
                          <Link
                            style={{ textDecoration: "none", color: "black" }}
@@ -251,6 +247,7 @@ const deleteComment = (id, commId) => {
                            {posts.postedBy.name}
                          </Link>
                        )}
+                       </strong>
                      </span>
                      {posts.body}
                    </p>
@@ -281,9 +278,9 @@ const deleteComment = (id, commId) => {
                          }}
                        >
                          <div key={index}>
-                           <span style={{ fontWeight: "500" }}>
+                           <Link to={msg.postedBy._id === state._id ? `profile`: `profile/${msg.postedBy._id}`} style={{ fontWeight: "500" }}>
                              {msg.postedBy.name}
-                           </span>{" "}
+                           </Link>{" "}
                            {msg.text}
                          </div>
                          {msg.postedBy._id === state._id ? (

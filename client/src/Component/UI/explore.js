@@ -100,7 +100,7 @@ function Explore() {
     fetch(`/deletepost/${id}`, {
       method: "DELETE",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       },
     })
       .then((res) => res.json())
@@ -115,7 +115,7 @@ function Explore() {
       method: "PUT",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       },
       body: new URLSearchParams({
         commId: commId,
@@ -131,7 +131,6 @@ function Explore() {
             return post;
           }
         });
-        console.log(newData)
         setData(newData);
       })
       .catch((err) => console.log(err));

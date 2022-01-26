@@ -27,6 +27,11 @@
 
 .item{
   width: 20rem;
+  height: 213px
+}
+
+.line{
+  margin:4rem 0;
 }
 
 .home{
@@ -92,14 +97,28 @@
   justify-content: center;
   height: 2rem;
   width: 2rem;
-  top: 9%;
+  top: 7%;
   right:22%;
   background-color: white;
   border-radius: 50%;
   box-shadow:rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px
 }
 
+.navb{
+  place-self: end;
+}
+
 @media only screen and (max-device-width: 480px){
+  .navb{
+    display:run-in !important;
+  }
+.profilepicmodal{
+  top: 30%;
+  left: 9%;
+}
+  .line{
+  margin:4rem 0px 0px 0px;
+ }
   .centername{
     text-align: center;
   }
@@ -116,12 +135,34 @@
   }
 
   .trash{
-    height: 30px;
-    width: 10rem;
+    height: 22px;
+    width: 20px;
+    position: absolute;
+    top: 50%;
+    right: 9%;
   }
 
   .upload{
-
+     height: 22px;
+    width: 20px;
+    position: absolute;
+    top: 70%;
+    right: 20%;
   }
+
+.item{
+  height:130px;
+  width: 130px;
+}
+
+.follow{
+  margin-right: 3px;
+}
+
+.bi{
+  margin: 0px;
+  width: 27px;
+  padding:5px;
+}
 }
 

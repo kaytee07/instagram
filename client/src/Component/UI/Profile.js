@@ -138,11 +138,11 @@ function Profile() {
               <h4>{state ? state.name : ""}</h4>
             </div>
             <section className="mb-2 d-flex flex-row justify-space-between ">
-              <h6 className="">{post.length} post</h6>
-              <h6 className="ml-3">
+              <h6 className="follow">{post.length} post</h6>
+              <h6 className="follow">
                 {user ? user.followers.length : ""} followers
               </h6>
-              <h6 className="ml-3">
+              <h6 className="follow">
                 {user ? user.following.length : ""} following
               </h6>
             </section>
@@ -152,12 +152,11 @@ function Profile() {
           </div>
         </div>
       </div>
-      <hr style={{ margin: "4rem 0" }}></hr>
+      <hr className="line" ></hr>
       <div className="gallery">
         {post.map((post, index) => {
           return (
             <img
-              style={{ height: "213px" }}
               key={index}
               className="item"
               alt=""

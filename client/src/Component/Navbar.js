@@ -1,10 +1,11 @@
-import React,{useEffect, useReducer, useContext} from "react";
-import { reducer, initialStatement, initialState } from "../reducers/userReducer";
+import React,{ useContext, useState} from "react";
 import {Link,useNavigate} from 'react-router-dom'
 import { UserContext } from "../App";
 
 
 function NavBar(props){
+const [query, setQuery] = useState("") 
+const [data, setData] = useState([]);
 const navigate = useNavigate();
 const {state, dispatch} = useContext(UserContext)
 const renderList = () => {
@@ -54,12 +55,45 @@ const renderList = () => {
   }
 }
 
+    const searchUser = (query) =>{
+      setQuery(query)
+      console.log(query)
+      fetch("/searchusers", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+          "Content-Type":"application/x-www-form-urlencoded"
+        },
+        body:new URLSearchParams({
+          query
+        })
+      }).then(res=> res.json())
+        .then(data=> {
+          console.log(data)
+          setData(data.user);
+        })
+    }
+
     return (
       <div className="App">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
-          <Link style={{width: "75%"}} className="navbar-brand" to={state ? "/" : "/login"}>
-            The Gram
-          </Link>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex">
+          <div>
+            <Link className="navbar-brand" to={state ? "/" : "/login"}>
+              The Gram
+            </Link>
+
+            <i
+              className="bi bi-search"
+              data-toggle="modal"
+              data-target="#exampleModalCenter"
+            ></i>
+          </div>
+          <div className="ml-auto">
+            <div className="navb navbar-collapse collapse " id="navbarNav">
+              <ul className="navbar-nav">{renderList()}</ul>
+            </div>
+          </div>
+
           <button
             className="navbar-toggler"
             type="button"
@@ -71,11 +105,74 @@ const renderList = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="navbar-collapse collapse" id="navbarNav">
-            <ul className="navbar-nav">{renderList()}</ul>
-          </div>
         </nav>
         {props.children}
+        <div
+          className="modal fade"
+          id="exampleModalCenter"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content">
+              <div className="modal-body">
+                <div className="mb-4">
+                  <label htmlFor="search">Search</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="search for user"
+                    value={query}
+                    onChange={(e) => searchUser(e.target.value)}
+                  />
+                </div>
+                <ul class="list-unstyled">
+                  {
+                    query ?
+                    data.map((user, index)=>{
+                      return (
+                        <li data-dismiss="modal" key={index} class="media">
+                          <img
+                            style={{ borderRadius: "50%" }}
+                            class="mr-3"
+                            src={user.profilePicture.url.replace(
+                              "upload",
+                              "upload/w_35"
+                            )}
+                            alt="Generic placeholder"
+                          />
+                          <div class="media-body">
+                            <Link
+                              to={
+                                state._id === user._id
+                                  ? `profile`
+                                  : `profile/${user._id}`
+                              }
+                            >
+                              {user.name}
+                            </Link>
+                          </div>
+                        </li>
+                      );           
+                    }):
+                    ""
+                  }
+                </ul>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
 }

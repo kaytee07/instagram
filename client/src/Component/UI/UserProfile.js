@@ -70,69 +70,66 @@ function UserProfile() {
             style={{
               display: "flex",
               justifyContent: "space-around",
-              margin: "18px",
+              margin: "18px auto",
               maxWidth: "800px",
             }}
           >
             <div
-              className="col-md-4 mb-3"
+              className="col-4 d-flex flex-row align-items-center"
               style={{
                 display: "inline-block",
                 width: "fit-content",
               }}
             >
               <img
-                style={{ width: "160px", borderRadius: "50%" }}
+                id="phoneprofile"
+                className="profilefone"
                 alt="profilepic"
                 src={name.profilePicture.url}
               />
             </div>
             <div
-              className="col-md-7 d-flex flex-md-row flex-column justify"
+              className="col-7 d-flex flex-row align-items-center"
               style={{
-                display: "inline-block",
+                padding:"0",
                 width: "fit-content",
               }}
             >
               <div>
-                <h4 className="centername">{name.name}</h4>
-                <h5 className="centername">{name.email}</h5>
+                <div className=" mb-3 d-flex">
+                  <h4 className="mb-0 mx-1">{name.name}</h4>
+                  {name.followers.includes(state._id) ? (
+                    <button
+                      onClick={() => unFollowUser(name._id)}
+                      className="btn btn-primary btn-sm"
+                    >
+                      unfollow
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => followUser(name._id)}
+                      className="btn btn-primary btn-sm"
+                    >
+                      follow
+                    </button>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <h5 className="">{name.email}</h5>
+                </div>
                 <section className="d-flex flex-row justify-content-between">
                   <h6 className="me-3 ">{post.length} post</h6>
                   <h6 className="me-3">{name.followers.length} followers</h6>
                   <h6 className="me-3">{name.following.length} following</h6>
                 </section>
               </div>
-              <div className="d-flex justify-content-center">
-                {name.followers.includes(state._id) ? (
-                  <button
-                    onClick={() => unFollowUser(name._id)}
-                    className="btn btn-primary btn-sm"
-                  >
-                    unfollow
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => followUser(name._id)}
-                    className="btn btn-primary btn-sm"
-                  >
-                    follow
-                  </button>
-                )}
-              </div>
+              <div className="d-flex justify-content-center"></div>
             </div>
           </div>
+          <hr className="line"></hr>
           <div className="gallery">
             {post.map((post, index) => {
-              return (
-                <img
-                  style={{ height: "213px" }}
-                  key={index}
-                  className="item"
-                  alt=""
-                  src={post.photo}
-                />
-              );
+              return <img key={index} className="item" alt="" src={post.url} />;
             })}
           </div>
         </div>

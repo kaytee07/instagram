@@ -29,7 +29,11 @@ function CreatePost(){
        }
      })
        .then((res) => {
-         navigate("/")      
+              res.json()
+       }).then(data=>{
+         if(data.error){
+           setError(data.error)
+         }
        })
        .catch((err) => setError(err));
      
