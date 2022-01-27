@@ -132,7 +132,7 @@ const renderList = () => {
                   {query
                     ? data.map((user, index) => {
                         return (
-                          <li data-dismiss="modal" key={index} class="media">
+                          <li key={index} class="media">
                             <img
                               style={{ borderRadius: "50%" }}
                               class="mr-3"
@@ -149,6 +149,7 @@ const renderList = () => {
                                     ? `profile`
                                     : `profile/${user._id}`
                                 }
+                               
                               >
                                 {user.name}
                               </Link>
