@@ -4,6 +4,7 @@ import { UserContext } from "../../App";
 
 function Explore() {
   const [data, setData] = useState([]);
+  const [info, setInfo] = useState("");
   const [like, setLike] = useState("");
   const { state, dispatch } = useContext(UserContext);
   useEffect(() => {
@@ -68,6 +69,11 @@ function Explore() {
         setData(newData);
       })
       .catch((e) => console.log(e));
+  };
+
+  const addInfo = (id) => {
+    addComment(info, id);
+    setInfo("");
   };
 
   const addComment = (text, postId) => {
@@ -163,7 +169,7 @@ function Explore() {
                         style={{ borderRadius: "50%" }}
                         src={posts.postedBy.profilePicture.url.replace(
                           "upload",
-                          "upload/w_35"
+                          "upload/w_39,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35"
                         )}
                         alt="..."
                       />
@@ -185,7 +191,7 @@ function Explore() {
                         style={{ borderRadius: "50%" }}
                         src={posts.postedBy.profilePicture.url.replace(
                           "upload",
-                          "upload/w_35"
+                          "upload/w_39,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35"
                         )}
                         alt="..."
                       />
@@ -228,7 +234,6 @@ function Explore() {
                     }
                   }}
                 ></i>
-               
               </div>
               <p>{posts.likes.length} likes</p>
               <p className="card-text">
@@ -251,7 +256,7 @@ function Explore() {
                     )}
                   </strong>
                 </span>
-              
+
                 {posts.body}
               </p>
               <form
@@ -260,7 +265,11 @@ function Explore() {
                   addComment(e.target[0].value, posts._id);
                 }}
               >
+                 <div style={{ display: "flex", cursor: "pointer" }}>
                 <input
+                  onChange={(e) => setInfo(e.target.value)}
+                  value={info}
+                  className="mb-3"
                   placeholder="comment"
                   style={{
                     borderTop: "none",
@@ -270,6 +279,12 @@ function Explore() {
                     borderColor: "rgba(0,0,0,.125)",
                   }}
                 />
+                <i
+                  type="submit"
+                  className="bi bi-arrow-right-circle-fill ml-3"
+                  onClick={(e) => addInfo(posts._id)}
+                ></i>
+                </div>
               </form>
 
               {posts.comment.map((msg, index) => {

@@ -97,7 +97,14 @@ function Profile() {
             id="phoneprofile"
             className="profilefone"
             alt="profilepic"
-            src={state ? state.profilePicture.url : ""}
+            src={
+              state
+                ? state.profilePicture.url.replace(
+                    "upload",
+                    "upload/w_400,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35"
+                  )
+                : ""
+            }
           />
           <div onClick={() => removeProfilePicture()} className="trash">
             <i
@@ -131,7 +138,7 @@ function Profile() {
           }}
         >
           <div>
-            <div className="mb-3" style={{width:"100%"}}>
+            <div className="mb-3" style={{ width: "100%" }}>
               <h4>{state ? state.name : ""}</h4>
             </div>
             <section className="mb-2 d-flex flex-row justify-space-between ">

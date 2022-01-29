@@ -168,7 +168,7 @@ const deleteComment = (id, commId) => {
                              style={{ borderRadius: "50%" }}
                              src={posts.postedBy.profilePicture.url.replace(
                                "upload",
-                               "upload/w_35"
+                               "upload/w_39,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35"
                              )}
                              alt="..."
                            />
@@ -190,7 +190,7 @@ const deleteComment = (id, commId) => {
                              style={{ borderRadius: "50%" }}
                              src={posts.postedBy.profilePicture.url.replace(
                                "upload",
-                               "upload/w_35"
+                               "upload/w_39,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35"
                              )}
                              alt="..."
                            />
@@ -262,7 +262,7 @@ const deleteComment = (id, commId) => {
                        addComment(e.target[0].value, posts._id);
                      }}
                    >
-                     <div style={{display:"flex", cursor:"pointer"}}>
+                     <div style={{ display: "flex", cursor: "pointer" }}>
                        <input
                          onChange={(e) => setInfo(e.target.value)}
                          value={info}
@@ -308,7 +308,7 @@ const deleteComment = (id, commId) => {
                          </div>
                          {msg.postedBy._id === state._id ? (
                            <i
-                             style={{cursor:"pointer"}}
+                             style={{ cursor: "pointer" }}
                              className="bi bi-trash-fill"
                              onClick={() => deleteComment(posts._id, msg._id)}
                            ></i>

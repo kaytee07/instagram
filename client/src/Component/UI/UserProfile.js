@@ -84,7 +84,10 @@ function UserProfile() {
                 id="phoneprofile"
                 className="profilefone"
                 alt="profilepic"
-                src={name.profilePicture.url}
+                src={name.profilePicture.url.replace(
+                  "upload",
+                  "upload/w_400,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35"
+                )}
               />
             </div>
             <div
