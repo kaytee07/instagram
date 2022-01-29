@@ -87,7 +87,7 @@ function Profile() {
         }}
       >
         <div
-          className="col-4 d-flex flex-row align-items-center"
+          className="col-4 d-flex p-0 flex-row align-items-center"
           style={{
             display: "inline-block",
             width: "fit-content",
@@ -124,14 +124,14 @@ function Profile() {
           </div>
         </div>
         <div
-          className="col-7 d-flex flex-row align-items-center"
+          className="col-7 p-0 d-flex flex-row align-items-center"
           style={{
             display: "inline-block",
             width: "fit-content",
           }}
         >
           <div>
-            <div className="mb-3">
+            <div className="mb-3" style={{width:"100%"}}>
               <h4>{state ? state.name : ""}</h4>
             </div>
             <section className="mb-2 d-flex flex-row justify-space-between ">

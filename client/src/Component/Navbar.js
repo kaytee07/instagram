@@ -76,23 +76,10 @@ const renderList = () => {
     return (
       <div className="App">
         <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex">
-          <div>
+          <div className="sandwich-btn">
             <Link className="navbar-brand" to={state ? "/" : "/login"}>
               The Gram
             </Link>
-
-            <i
-              className="bi bi-search"
-              data-toggle="modal"
-              data-target="#exampleModalCenter"
-            ></i>
-          </div>
-
-          <div className="navb navbar-collapse collapse " id="navbarNav">
-            <ul className="navbar-nav ml-auto">{renderList()}</ul>
-          </div>
-
-          <div>
             <button
               className="navbar-toggler"
               type="button"
@@ -104,7 +91,22 @@ const renderList = () => {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
+            {state ? (
+              <i
+                className="bi bi-search"
+                data-toggle="modal"
+                data-target="#exampleModalCenter"
+              ></i>
+            ) : (
+              ""
+            )}
           </div>
+
+          <div className="navb navbar-collapse collapse " id="navbarNav">
+            <ul className="navbar-nav ml-auto">{renderList()}</ul>
+          </div>
+
+          <div></div>
         </nav>
         {props.children}
         <div

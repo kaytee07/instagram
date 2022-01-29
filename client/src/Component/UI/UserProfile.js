@@ -56,7 +56,6 @@ function UserProfile() {
       .then((result) => {
        setName(result.profile);
        setUser(result.myself);
-       console.log(result)
       })
       .catch((err) => console.log(err));
   }
@@ -91,13 +90,13 @@ function UserProfile() {
             <div
               className="col-7 d-flex flex-row align-items-center"
               style={{
-                padding:"0",
+                padding: "0",
                 width: "fit-content",
               }}
             >
-              <div>
+              <div style={{ width: "100%" }}>
                 <div className=" mb-3 d-flex">
-                  <h4 className="mb-0 mx-1">{name.name}</h4>
+                  <h4 className="mb-0 username-btn">{name.name}</h4>
                   {name.followers.includes(state._id) ? (
                     <button
                       onClick={() => unFollowUser(name._id)}
@@ -114,14 +113,14 @@ function UserProfile() {
                     </button>
                   )}
                 </div>
+                <section className="d-flex flex-row ">
+                  <h6 className="follow">{post.length} post</h6>
+                  <h6 className="follow">{name.followers.length} followers</h6>
+                  <h6 className="follow">{name.following.length} following</h6>
+                </section>
                 <div className="mb-3">
                   <h5 className="">{name.email}</h5>
                 </div>
-                <section className="d-flex flex-row justify-content-between">
-                  <h6 className="me-3 ">{post.length} post</h6>
-                  <h6 className="me-3">{name.followers.length} followers</h6>
-                  <h6 className="me-3">{name.following.length} following</h6>
-                </section>
               </div>
               <div className="d-flex justify-content-center"></div>
             </div>

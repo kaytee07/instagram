@@ -15,6 +15,12 @@
   margin-top: 40px;
 }
 
+.sandwich-btn{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
 .profile{
    width: 80%;
   margin:20px auto;
@@ -76,6 +82,10 @@
  border-radius: 50%
 }
 
+.follow{
+  margin-right: 10px;
+}
+
 .trash{
   position: relative;
   display: flex;
@@ -118,6 +128,10 @@
   text-decoration: none;
 }
 
+.username-btn{
+    margin-right: 70px;
+  }
+
 @media only screen and (max-device-width: 480px){
   .navb{
     display:run-in !important;
@@ -149,7 +163,11 @@
     width: 20px;
     position: absolute;
     top: 50%;
-    right: 9%;
+    right: 23%;
+  }
+
+  .username-btn{
+    margin-right: 60px;
   }
 
   .upload{
@@ -157,7 +175,7 @@
     width: 20px;
     position: absolute;
     top: 70%;
-    right: 20%;
+    right: 35%;
   }
 
 .item{
