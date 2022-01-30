@@ -7,6 +7,20 @@
   font-family: 'Grand Hotel', cursive;
 }
 
+.see{
+    right: 8%;
+    margin-top: 2%;
+    position: absolute;
+    bottom: 20.5%;
+}
+
+.realsee{
+    right: 8%;
+    margin-top: 2%;
+    position: absolute;
+    bottom: 37.5%;
+}
+
 .gallery{
   display: grid;
   grid-template-columns: repeat(3, minmax(2rem, 1fr));

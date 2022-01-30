@@ -34,7 +34,7 @@ app.use("/", userRoutes);
  });
 
 app.use((err, req, res, next) => {
-   
+    console.log(err)
      next(err)
 })
 

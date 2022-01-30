@@ -6,6 +6,9 @@ function Signup() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false)
+  const [showVerifyPassword, setShowVerifyPassword] = useState(false);
+  const [verifyPassword, setVerifyPassword] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
@@ -19,11 +22,15 @@ function Signup() {
            password,
            email,
            name:username,
+           verifyPassword
+
          }),
        }).then(res=> res.json())
         . then(data=> {
             if (data.message) {
                 navigate("/login")
+            }else if(data.error){
+              setError(data.error)
             }
         })
         .catch(e=> alert(e))   
@@ -36,7 +43,7 @@ function Signup() {
     >
       {error ? (
         <div
-          style={{ width: "20rem" }}
+          style={{ width: "23rem" }}
           className="alert alert-danger alert-dismissible fade show"
           role="alert"
         >
@@ -81,14 +88,57 @@ function Signup() {
               <label htmlFor="exampleInputPassword1" className="form-label">
                 Password
               </label>
-              <input
-                type="password"
-                placeholder="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="form-control"
-                id="exampleInputPassword1"
-              />
+              <div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="form-control"
+                  id="exampleInputPassword1"
+                />
+                {showPassword ? (
+                  <i
+                    className="bi bi-eye-slash realsee"
+                    onClick={() => setShowPassword(false)}
+                  ></i>
+                ) : (
+                  <i
+                    class="bi bi-eye realsee"
+                    onClick={() => setShowPassword(true)}
+                  ></i>
+                )}
+              </div>
+            </div>
+
+            <div className="mb-3 ">
+              <label
+                htmlFor="exampleInputVerifyPassword1"
+                className="form-label"
+              >
+                Password
+              </label>
+              <div className="">
+                <input
+                  type={showVerifyPassword ? "text" : "password"}
+                  placeholder="verify password"
+                  value={verifyPassword}
+                  onChange={(e) => setVerifyPassword(e.target.value)}
+                  className="form-control"
+                  id="exampleInputVerifyPassword1"
+                />
+                {showVerifyPassword ? (
+                  <i
+                    class="bi bi-eye-slash see"
+                    onClick={() => setShowVerifyPassword(false)}
+                  ></i>
+                ) : (
+                  <i
+                    class="bi bi-eye see"
+                    onClick={() => setShowVerifyPassword(true)}
+                  ></i>
+                )}
+              </div>
             </div>
             <button
               type="submit"

@@ -15,12 +15,14 @@ const signinSchema = require('../middleware/validateSignin')
 
 router.route('/signup')
       .post(signupSchema,catchAsync(async(req, res)=>{
-            const {name, email, password} = req.body        
+            console.log(req.body)
+            const { name, email, password, verifyPassword } = req.body;        
             if(!name || !email || !password){
                   throw new AppError("fill all the fields")
             }
            const existingEmail =  await User.findOne({email});
            if(existingEmail) throw new AppError('email already exist', 400);
+           if(password !==  verifyPassword) throw new AppError("passwords don't match", 403);
            await bcrypt.hash(password, 12, async function(err, hash){ 
                    const newUser = new User({ name, email, password:hash});
                    await newUser.save();
