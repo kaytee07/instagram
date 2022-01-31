@@ -15,10 +15,13 @@ require("dotenv").config();
 
 router.route("/user/:id")
      .get(verifyUser, catchAsync(async(req, res)=>{
+         const mainuser = await User.findById(req.params.id)
+           .select("-password")
+           .populate("followers", "_id name photo profilePicture")
+           .populate("following", "_id name photo profilePicture");
         const user = await User.findById(req.params.id)
           .select("-password")
-          .populate("followers", "_id name photo profilePicture")
-          .populate("following", "_id name photo profilePicture");
+         
         if(!user){
             throw new AppError("User not found", 404)
         }
@@ -28,20 +31,28 @@ router.route("/user/:id")
             throw new AppError("No post yet",422)
         }
          
-        res.json({posts, user})
+        res.json({posts, user, mainuser})
 
      }))
 
 router.route("/follow")
      .put(verifyUser,catchAsync(async(req, res)=>{
+         const mainuser = await User.findById(req.body.profileId)
+           .select("-password")
+           .populate("followers", "_id name photo profilePicture")
+           .populate("following", "_id name photo profilePicture");
+         
+
          const followUser = await User.findByIdAndUpdate(
            req.body.profileId,
            {
              $push: { followers: req.user._id },
            },
            { new: true }
-         ).select("-password");
-         
+         )
+           .select("-password")
+          
+
           
          const user = await User.findByIdAndUpdate(
            req.user._id,
@@ -49,12 +60,11 @@ router.route("/follow")
              $push: { following: req.body.profileId },
            },
            { new: true }
-         ).select("-password");
-           
-       
-      
-
-         res.json({profile:followUser, myself:user})
+         )
+           .select("-password")
+           .populate("followers", "_id name photo profilePicture")
+           .populate("following", "_id name photo profilePicture");
+         res.json({profile:followUser, myself:user, mainuser})
          
 
      }))
@@ -62,23 +72,30 @@ router.route("/follow")
      router.route("/unfollow").put(
        verifyUser,
        catchAsync(async (req, res) => {
+         const mainuser = await User.findById(req.body.profileId).select(
+           "-password"
+         )
+           .populate("followers", "_id name photo profilePicture")
+           .populate("following", "_id name photo profilePicture");
+
          const followUser = await User.findByIdAndUpdate(
            req.body.profileId,
            {
              $pull: { followers: req.user._id },
            },
            { new: true }
-         ).select("-password");
-
+         )
+           .select("-password")
+        
           const user = await User.findByIdAndUpdate(
             req.user._id,
             {
               $pull: { following: req.body.profileId },
             },
             { new: true }
-          ).select("-password")
-
-           res.json({ profile: followUser, myself: user });
+          )
+            .select("-password")
+           res.json({ profile: followUser, myself: user, mainuser });
        })
      );
 
@@ -101,7 +118,7 @@ router.route("/follow")
                    let user = await User.find({
                      name: { $regex: searchpattern },
                    })
-                    res.json({user})
+                    res.json({user, mainuser})
                  }))
 
     router.route("/removeprofilepicture").put(

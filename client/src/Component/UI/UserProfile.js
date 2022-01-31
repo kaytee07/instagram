@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import $ from 'jquery'
 
 function UserProfile() {
+  const [main, setMain] = useState("")
   const [user, setUser] = useState("")
   const [name, setName] = useState("")
   const [post, setPost] = useState([]);
@@ -18,8 +19,11 @@ function UserProfile() {
     })
       .then((res) => res.json())
       .then((data) => {
+         setMain(data.mainuser);
         setPost(data.posts)
         setName(data.user);
+       
+
       });
   }, []);
 
@@ -148,115 +152,116 @@ function UserProfile() {
               return <img key={index} className="item" alt="" src={post.url} />;
             })}
           </div>
-          <>
-            <div
-              className="modal fade"
-              id="exampleModalCenterfr"
-              tabIndex="-1"
-              role="dialog"
-              aria-labelledby="exampleModalCenterTitle"
-              aria-hidden="true"
-            >
-              <div className="modal-dialog modal-dialog modal-dialog-scrollable">
-                <div className="modal-content">
-                  <div className="modal-body"></div>
-                  <div className="header">
-                    <h4 className="pl-4">Followers</h4>
-                    <hr />
-                  </div>
-                  <ul className="">
-                    {name.followers.map((followers) => {
-                      return (
-                        <li
-                          className="mb-2"
-                          style={{ display: "flex", marginBottom: "10px" }}
-                        >
-                          <img
-                            style={{ borderRadius: "50%" }}
-                            className="mr-3"
-                            src={followers.profilePicture.url.replace(
-                              "upload",
-                              "upload/w_39,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35"
-                            )}
-                            alt="Generic placeholder"
-                          />
-                          <div class="media-body">
-                            <Link
-                              onClick={(e) => {
-                                $("body").removeClass("modal-open");
-                                $(".modal-backdrop").remove();
-                              }}
-                              to={
-                                state ? `/profile` : `/profile/${followers._id}`
-                              }
-                            >
-                              {followers.name}
-                            </Link>
-                          </div>
-                          <hr />
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              </div>
-            </div>
-            {/* following */}
-            <div
-              className="modal fade"
-              id="exampleModalCenterfwing"
-              tabIndex="-1"
-              role="dialog"
-              aria-labelledby="exampleModalCenterTitle"
-              aria-hidden="true"
-            >
-              <div className="modal-dialog modal-dialog modal-dialog-scrollable">
-                <div className="modal-content">
-                  <div className="modal-body"></div>
-                  <div className="header">
-                    <h4 className="pl-4">Following</h4>
-                    <hr />
-                  </div>
-                  <ul className="">
-                    {name.following.map((following) => {
-                      return (
-                        <li className="" style={{ display: "flex", marginBottom:"10px" }}>
-                          <img
-                            style={{ borderRadius: "50%" }}
-                            className="mr-3"
-                            src={following.profilePicture.url.replace(
-                              "upload",
-                              "upload/w_39,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35"
-                            )}
-                            alt="Generic placeholder"
-                          />
-                          <div class="media-body">
-                            <Link
-                              onClick={(e) => {
-                                $("body").removeClass("modal-open");
-                                $(".modal-backdrop").remove();
-                              }}
-                              to={
-                                state ? `/profile` : `/profile/${following._id}`
-                              }
-                            >
-                              {following.name}
-                            </Link>
-                          </div>
-                          <hr></hr>
-                        </li>
-                      
-                      );
-                    })}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </>
         </div>
       ) : (
         <h2>loading...</h2>
       )}
+      {
+        main ?  <>
+        <div
+          className="modal fade"
+          id="exampleModalCenterfr"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog modal-dialog-scrollable">
+            <div className="modal-content">
+              <div className="modal-body"></div>
+              <div className="header">
+                <h4 className="pl-4">Followers</h4>
+                <hr />
+              </div>
+              <ul className="">
+                {main.followers.map((followers) => {
+                  return (
+                    <li
+                      className="mb-2"
+                      style={{ display: "flex", marginBottom: "10px" }}
+                    >
+                      <img
+                        style={{ borderRadius: "50%" }}
+                        className="mr-3"
+                        src={followers.profilePicture.url.replace(
+                          "upload",
+                          "upload/w_39,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35"
+                        )}
+                        alt="Generic placeholder"
+                      />
+                      <div class="media-body">
+                        <Link
+                          onClick={(e) => {
+                            $("body").removeClass("modal-open");
+                            $(".modal-backdrop").remove();
+                          }}
+                          to={state ? `/profile` : `/profile/${followers._id}`}
+                        >
+                          {followers.name}
+                        </Link>
+                      </div>
+                      <hr />
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        </div>
+        {/* following */}
+        <div
+          className="modal fade"
+          id="exampleModalCenterfwing"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog modal-dialog-scrollable">
+            <div className="modal-content">
+              <div className="modal-body"></div>
+              <div className="header">
+                <h4 className="pl-4">Following</h4>
+                <hr />
+              </div>
+              <ul className="">
+                {main.following.map((following) => {
+                  return (
+                    <li
+                      className=""
+                      style={{ display: "flex", marginBottom: "10px" }}
+                    >
+                      <img
+                        style={{ borderRadius: "50%" }}
+                        className="mr-3"
+                        src={following.profilePicture.url.replace(
+                          "upload",
+                          "upload/w_39,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35"
+                        )}
+                        alt="Generic placeholder"
+                      />
+                      <div class="media-body">
+                        <Link
+                          onClick={(e) => {
+                            $("body").removeClass("modal-open");
+                            $(".modal-backdrop").remove();
+                          }}
+                          to={state ? `/profile` : `/profile/${following._id}`}
+                        >
+                          {following.name}
+                        </Link>
+                      </div>
+                      <hr></hr>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </> :
+      ""
+      }
     </>
   );
 }
