@@ -11,6 +11,11 @@ const {state, dispatch} = useContext(UserContext)
 const renderList = () => {
   if(state){
     return [
+      <li key={6} className="nav-item">
+        <Link className="nav-link" to="/">
+          Home
+        </Link>
+      </li>,
       <li key={5} className="nav-item">
         <Link className="nav-link" to="/explore">
           Explore

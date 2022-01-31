@@ -116,7 +116,7 @@ function Signup() {
                 htmlFor="exampleInputVerifyPassword1"
                 className="form-label"
               >
-                Password
+               Verify Password
               </label>
               <div className="">
                 <input
@@ -158,5 +158,6 @@ function Signup() {
     </div>
   );
 }
+
 
 export default Signup;

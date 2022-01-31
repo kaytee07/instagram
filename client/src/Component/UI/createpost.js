@@ -8,14 +8,13 @@ function CreatePost(){
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [image, setImage] = useState("");
-  const [url, setUrl] = useState("");
   const [error, setError] = useState("");
-
-  const {state, dispatch} = useContext(UserContext);
+  const [load, setLoad] = useState(false);
   
   
 
   const postToCloudinary = () => {
+    setLoad(true)
      const data = new FormData();
      data.append("file", image);
      data.append("body", JSON.stringify({
@@ -29,7 +28,9 @@ function CreatePost(){
        }
      })
        .then((res) => {
+              setLoad(false)
               navigate("/")
+              
       })
       //.then(data=>{
       //    if(data.error){
@@ -100,6 +101,12 @@ function CreatePost(){
             </button>
           </div>
         </div>
+        {
+          load ? <div className="loadpage">
+            <h4>...PLEASE WAIT</h4>
+        </div> : ""
+        }
+         
       </div>
     );
 }

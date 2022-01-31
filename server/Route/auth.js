@@ -15,7 +15,6 @@ const signinSchema = require('../middleware/validateSignin')
 
 router.route('/signup')
       .post(signupSchema,catchAsync(async(req, res)=>{
-            console.log(req.body)
             const { name, email, password, verifyPassword } = req.body;        
             if(!name || !email || !password){
                   throw new AppError("fill all the fields")

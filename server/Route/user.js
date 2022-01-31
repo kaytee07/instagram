@@ -15,7 +15,10 @@ require("dotenv").config();
 
 router.route("/user/:id")
      .get(verifyUser, catchAsync(async(req, res)=>{
-        const user = await User.findById(req.params.id).select("-password")
+        const user = await User.findById(req.params.id)
+          .select("-password")
+          .populate("followers", "_id name photo profilePicture")
+          .populate("following", "_id name photo profilePicture");
         if(!user){
             throw new AppError("User not found", 404)
         }
@@ -24,6 +27,7 @@ router.route("/user/:id")
         if(!posts){
             throw new AppError("No post yet",422)
         }
+         
         res.json({posts, user})
 
      }))
@@ -95,7 +99,7 @@ router.route("/follow")
                  .post(verifyUser, catchAsync(async(req, res)=>{
                    let searchpattern = new RegExp(`^${req.body.query}`,"i")
                    let user = await User.find({
-                     email: { $regex: searchpattern },
+                     name: { $regex: searchpattern },
                    })
                     res.json({user})
                  }))

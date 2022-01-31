@@ -146,10 +146,34 @@
     margin-right: 70px;
   }
 
+  .loadpage{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255,255,255,0.8);
+    display: flex;
+    justify-content: center;
+    z-index: 3;
+  }
+
 @media only screen and (max-device-width: 480px){
-  .navb{
+.navb{
     display:run-in !important;
   }
+
+.see{
+    right: 8%;
+    margin-top: 2%;
+    position: absolute;
+    bottom: 19.8%;
+}
+
+.realsee{
+    right: 8%;
+    margin-top: 2%;
+    position: absolute;
+    bottom: 36.4%;
+}
 .profilepicmodal{
   top: 30%;
   left: 9%;

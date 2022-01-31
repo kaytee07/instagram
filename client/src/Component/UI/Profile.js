@@ -1,10 +1,13 @@
 import React,{useState, useEffect, useContext} from "react";
 import { UserContext } from "../../App";
+import { Link } from "react-router-dom";
 import axios from 'axios'
+import $ from 'jquery'
 
 
 
 function Profile() {
+  const [modal, closeModal] = useState(false)
   const [post, setPost] = useState([])
   const [image, setImage] = useState("");
   const [user, setUser] = useState("");
@@ -64,7 +67,7 @@ function Profile() {
         _id:state
       })
     }).then(res=> res.json())
-    .then(data=>{
+    .then(data=>{  
       setPost(data.mypost)
       setUser(data.user)
     })
@@ -143,10 +146,20 @@ function Profile() {
             </div>
             <section className="mb-2 d-flex flex-row justify-space-between ">
               <h6 className="follow">{post.length} post</h6>
-              <h6 className="follow">
+              <h6
+                style={{ cursor: "pointer" }}
+                className="follow"
+                data-toggle="modal"
+                data-target="#exampleModalCenterfrs"
+              >
                 {user ? user.followers.length : ""} followers
               </h6>
-              <h6 className="follow">
+              <h6
+                style={{ cursor: "pointer" }}
+                className="follow"
+                data-toggle="modal"
+                data-target="#exampleModalCenterfwings"
+              >
                 {user ? user.following.length : ""} following
               </h6>
             </section>
@@ -187,6 +200,111 @@ function Profile() {
           </div>
         </div>
       ) : null}
+
+      <>
+        <div
+          className="modal fade"
+          id="exampleModalCenterfrs"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog modal-dialog-scrollable">
+            <div className="modal-content">
+              <div className="modal-body"></div>
+              <div className="header">
+                <h4 className="pl-4">Followers</h4>
+                <hr />
+              </div>
+              <ul className="">
+                {user ? user.followers.map((followers) => {
+                  return (
+                    <li
+                      className=""
+                      style={{ display: "flex", marginBottom: "10px" }}
+                    >
+                      <img
+                        style={{ borderRadius: "50%" }}
+                        className="mr-3"
+                        src={followers.profilePicture.url.replace(
+                          "upload",
+                          "upload/w_39,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35"
+                        )}
+                        alt="Generic placeholder"
+                      />
+                      <div class="media-body">
+                        <Link
+                          onClick={(e) => {
+                            $("body").removeClass("modal-open");
+                            $(".modal-backdrop").remove();
+                          }}
+                          to={state ? `/profile/${followers._id}` : `/profile`}
+                        >
+                          {followers.name}
+                        </Link>
+                      </div>
+                      <hr />
+                    </li>
+                  );
+                }):""}
+              </ul>
+            </div>
+          </div>
+        </div>
+        {/* following */}
+        <div
+          className="modal fade"
+          id="exampleModalCenterfwings"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog modal-dialog-scrollable">
+            <div className="modal-content">
+              <div className="modal-body"></div>
+              <div className="header">
+                <h4 className="pl-4">Following</h4>
+                <hr />
+              </div>
+              <ul className="">
+                {user?user.following.map((following) => {
+                  return (
+                    <li
+                      className=""
+                      data-toggle="modal"
+                      style={{ display: "flex", marginBottom: "10px" }}
+                    >
+                      <img
+                        style={{ borderRadius: "50%" }}
+                        className="mr-3"
+                        src={following.profilePicture.url.replace(
+                          "upload",
+                          "upload/w_39,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35"
+                        )}
+                        alt="Generic placeholder"
+                      />
+                      <div class="media-body">
+                        <Link
+                          onClick={(e) => {
+                            $("body").removeClass("modal-open");
+                            $(".modal-backdrop").remove();
+                          }}
+                          to={state ? `/profile/${following._id}` : `/profile`}
+                        >
+                          {following.name}
+                        </Link>
+                      </div>
+                      <hr />
+                    </li>
+                  );
+                }):""}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </>
     </div>
   );
 }

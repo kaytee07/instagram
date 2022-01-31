@@ -13,6 +13,7 @@ const upload = multer({storage})
 router.route('/allpost')
       .post(verifyUser,catchAsync(async(req, res)=>{
           const allpost = await Post.find()
+            .sort("-createdAt")
             .populate("postedBy", "_id name profilePicture")
             .populate("comment.postedBy", "_id name profilePicture");
           res.json({post:allpost})
@@ -27,6 +28,7 @@ router.route("/explore").post(
         { postedBy: req.user._id },
       ],
     })
+      .sort("-createdAt")
       .populate("postedBy", "_id name profilePicture")
       .populate("comment.postedBy", "_id name profilePicture");
     res.json({ post: followingPost });
@@ -35,8 +37,12 @@ router.route("/explore").post(
 
 router.route('/mypost')
       .post(verifyUser,catchAsync(async(req,res)=>{
-          const user = await User.findById(req.user._id).select("-password")
+          const user = await User.findById(req.user._id)
+            .select("-password")
+            .populate("followers", "_id name photo profilePicture")
+            .populate("following", "_id name photo profilePicture");
           const mypost = await Post.find({postedBy:req.user._id}).populate("postedBy","_id name followers following")
+          
           res.json({mypost, user})
       }))
 
@@ -61,15 +67,17 @@ router.route("/unlike").put(
       req.body.id,
       { $pull: { likes: req.user.id } },
       { new: true }
-    ).populate("postedBy", "_id name profilePicture")
-            .populate("comment.postedBy", "_id name profilePicture")
-    .exec((err, result) => {
-      if (err) {
-        throw new AppError(err, 403);
-      } else {
-        res.json(result);
-      }
-    });
+    )
+      .sort("-createdAt")
+      .populate("postedBy", "_id name profilePicture")
+      .populate("comment.postedBy", "_id name profilePicture")
+      .exec((err, result) => {
+        if (err) {
+          throw new AppError(err, 403);
+        } else {
+          res.json(result);
+        }
+      });
   })
 );
 
@@ -86,12 +94,14 @@ router.route("/comment")
         },
       },
       { new: true }
-    ).populate("postedBy", "_id name profilePicture")
-            .populate("comment.postedBy", "_id name profilePicture")
-    .exec((err, result) => {
-      if (err) throw new AppError(err, 422);
-      if (result) res.json(result);
-    });
+    )
+      .sort("-createdAt")
+      .populate("postedBy", "_id name profilePicture")
+      .populate("comment.postedBy", "_id name profilePicture")
+      .exec((err, result) => {
+        if (err) throw new AppError(err, 422);
+        if (result) res.json(result);
+      });
 
   }))
 
@@ -100,6 +110,7 @@ router.route("/deletepost/:postId")
         const deletedPost = await Post.findByIdAndDelete({_id:req.params.postId})
         if(deletedPost){
           const post = await Post.find()
+            .sort("-createdAt")
             .populate("postedBy", "_id name profilePicture")
             .populate("comment.postedBy", "_id name profilePicture");
          
@@ -117,6 +128,7 @@ router.route("/deletecomment/:postId")
       },
       { new: true }
     )
+      .sort("-createdAt")
       .populate("postedBy", "_id name profilePicture")
       .populate("comment.postedBy", "_id name profilePicture");
       res.json(deletedComment);
