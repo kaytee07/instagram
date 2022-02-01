@@ -118,7 +118,7 @@ router.route("/follow")
                    let user = await User.find({
                      name: { $regex: searchpattern },
                    })
-                    res.json({user, mainuser})
+                    res.json({user})
                  }))
 
     router.route("/removeprofilepicture").put(

@@ -174,9 +174,10 @@ function UserProfile() {
                 <hr />
               </div>
               <ul className="">
-                {main.followers.map((followers) => {
+                {main.followers.map((followers, index) => {
                   return (
                     <li
+                     key={index}
                       className="mb-2"
                       style={{ display: "flex", marginBottom: "10px" }}
                     >
@@ -189,7 +190,7 @@ function UserProfile() {
                         )}
                         alt="Generic placeholder"
                       />
-                      <div class="media-body">
+                      <div className="media-body">
                         <Link
                           onClick={(e) => {
                             $("body").removeClass("modal-open");
@@ -225,9 +226,10 @@ function UserProfile() {
                 <hr />
               </div>
               <ul className="">
-                {main.following.map((following) => {
+                {main.following.map((following, index) => {
                   return (
                     <li
+                      key={index}
                       className=""
                       style={{ display: "flex", marginBottom: "10px" }}
                     >
@@ -240,7 +242,7 @@ function UserProfile() {
                         )}
                         alt="Generic placeholder"
                       />
-                      <div class="media-body">
+                      <div className="media-body">
                         <Link
                           onClick={(e) => {
                             $("body").removeClass("modal-open");

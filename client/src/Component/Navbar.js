@@ -74,6 +74,7 @@ const renderList = () => {
         })
       }).then(res=> res.json())
         .then(data=> {
+          console.log(data.user)
           setData(data.user);
         })
     }
@@ -134,21 +135,21 @@ const renderList = () => {
                     onChange={(e) => searchUser(e.target.value)}
                   />
                 </div>
-                <ul class="list-unstyled">
+                <ul className="list-unstyled">
                   {query
                     ? data.map((user, index) => {
                         return (
-                          <li key={index} class="media">
+                          <li key={index} className="media">
                             <img
                               style={{ borderRadius: "50%" }}
-                              class="mr-3"
+                              className="mr-3"
                               src={user.profilePicture.url.replace(
                                 "upload",
                                 "upload/w_35"
                               )}
                               alt="Generic placeholder"
                             />
-                            <div class="media-body">
+                            <div className="media-body">
                               <Link
                                 to={
                                   state._id === user._id

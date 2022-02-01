@@ -285,7 +285,7 @@ function Explore() {
                 ></i>
                 </div>
               </form>
-
+              {console.log(posts)}
               {posts.comment.map((msg, index) => {
                 return (
                   <div
@@ -295,6 +295,7 @@ function Explore() {
                     }}
                   >
                     <div key={index}>
+                      {console.log(msg)}
                       <Link
                         className="comm"
                         to={

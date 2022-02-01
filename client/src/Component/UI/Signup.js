@@ -104,7 +104,7 @@ function Signup() {
                   ></i>
                 ) : (
                   <i
-                    class="bi bi-eye realsee"
+                    className="bi bi-eye realsee"
                     onClick={() => setShowPassword(true)}
                   ></i>
                 )}
@@ -129,12 +129,12 @@ function Signup() {
                 />
                 {showVerifyPassword ? (
                   <i
-                    class="bi bi-eye-slash see"
+                    className="bi bi-eye-slash see"
                     onClick={() => setShowVerifyPassword(false)}
                   ></i>
                 ) : (
                   <i
-                    class="bi bi-eye see"
+                    className="bi bi-eye see"
                     onClick={() => setShowVerifyPassword(true)}
                   ></i>
                 )}

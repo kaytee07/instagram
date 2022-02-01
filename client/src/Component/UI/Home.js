@@ -287,6 +287,7 @@ const deleteComment = (id, commId) => {
                    {posts.comment.map((msg, index) => {
                      return (
                        <div
+                         key={index}
                          style={{
                            display: "flex",
                            justifyContent: "space-between",
