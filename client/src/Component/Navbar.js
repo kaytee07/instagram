@@ -74,7 +74,6 @@ const renderList = () => {
         })
       }).then(res=> res.json())
         .then(data=> {
-          console.log(data.user)
           setData(data.user);
         })
     }
